@@ -1,0 +1,104 @@
+extends ./base.pug
+
+block content
+  -function rcx2f(x){
+    -       if(x== "RC5"){ return "rank,s_number,number,name,classno,rc,note  ";}
+    -  else if(x== "RC0"){ return "rank,s_number,number,classno,name,rc,note";}
+    -  else if(x== "RC1"){ return "rank,group_id,road,number,classno,name,rc,grk,note";}
+    -  else if(x== "RC2"){ return "rank,road,number,classno,name,rc,note";}
+    -  else if(x== "RC3"){ return "rank,group_id,road,name,number,rc,classno,grk,note";}
+    -  else if(x== "RC4"){ return "rank,road,name,number,rc,classno,note";}
+    -  else if(x== "RC6"){ return "rank,group_id,road,number,name,classno,rc,note";}
+    -  else if(x== "RC7"){ return "rank,group_id,s_number,number,name,classno,rc,grk,note";}
+  -}
+  -function pDate(d){
+    -if( d ){
+        - return d.getFullYear() +"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds()
+    - }else{
+        - return ""; 
+    -}  
+  -}
+  script(src="/sortableTable/webtoolkit.sortabletable.js")
+  script(src="/sortableTable/js/jquery-1.10.2.min.js")
+  link(type="text/css", href="/sortableTable/js/grid.css" ,rel="stylesheet")
+  script(src="/sortableTable/js/grid.js")
+
+  style.
+    table {
+    text-align: left;
+    font-size: 12px;
+    font-family: verdana;
+    background: #c0c0c0;
+    }
+    
+    table thead  {
+    cursor: pointer;
+    }
+    
+    table thead tr,
+    table tfoot tr i{
+    background: #c0c0c0;
+    }
+    
+    table tbody tr {
+    background: #f0f0f0;
+    }
+    
+    td, th {
+    border: 1px solid white;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    table, td, th {border: 1px solid black;}
+    textarea
+    {
+    display:block;
+    margin-top:0px;
+    margin-left:0px;
+    margin-right:0px;
+    margin-bottom:0px;
+    background-color:#EFFBFB
+    }
+
+  if lock
+    table
+      tr
+        td
+          button#edit_tbl Edit
+        td
+          button#tab_r &gt;
+        td
+          button#tab_d v
+        td
+          button#save_tbl SAVE
+        
+        if profile && profile.id && profile.id< 10
+          td= profile.id
+          td
+            button#lock_tbl LOCK
+  -let rcx=books[0][0].rcx
+  -let s_item=books[0][0].s_item
+  span= s_item
+  -let fieldnames = "frc_id,rcx,rank,s_number,number,classno,name,h1,h2,h3,b3,h4,h5,b5,h6,rc,note";
+  -let fns=fieldnames.split(',');
+  -let c_fieldnames = ",,名<br>次,次<br>序,比賽<br>號,姓名,班級,一,二,三,B3,四,五,B5,六,成績,備註";
+  -let cfns=c_fieldnames.split(',')
+  table#EDUTBL
+    thead
+      each tn in cfns
+        th !{tn}
+    tbody   
+      each  book in books[1]
+        tr
+          each fn in fns
+            td= book[fn]
+          
+  
+  
+  script.
+    function myTrim(x){  return x.replace(/^\s+|\s+$/gm,'');}
+
+     
+
+

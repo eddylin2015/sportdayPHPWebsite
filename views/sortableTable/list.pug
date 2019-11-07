@@ -1,0 +1,77 @@
+extends ./base.pug
+
+block content
+  -function pDate(d){
+    -if( d ){
+        - return d.getFullYear() +"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds()
+    - }else{
+        - return ""; 
+    -}  
+  -}
+  script(src="/sortableTable/webtoolkit.sortabletable.js")
+  script.
+    function f(i,j)	{window.location.href=("sport.php?id="+i+"&lock="+j);}
+    function f0(i,fj,fl)
+    {
+      if(fj=="RCFIE"){ window.location.href=("field.php?id="+i+"&fj="+fj+"&lock="+fl);}
+      if(fj=="RCFJH"){window.location.href=("fieldhj.php?id="+i+"&fj="+fj+"&lock="+fl);}
+    }
+  style.
+    table {
+    text-align: left;
+    font-size: 12px;
+    font-family: verdana;
+    background: #c0c0c0;
+    }
+    
+    table thead  {
+    cursor: pointer;
+    }
+    
+    table thead tr,
+    table tfoot tr i{
+    background: #c0c0c0;
+    }
+    
+    table tbody tr {
+    background: #f0f0f0;
+    }
+    
+    td, th {
+    border: 1px solid white;
+    }
+
+  table#myTable
+    thead
+      tr
+        th(class="c1") id
+        th(class="c1") s_item
+        th(class="c1") lock
+        th(class="c1") link
+        th lock time
+    tbody   
+      each book in books[0]
+        tr
+          td= book.si_id
+          td= book.s_item
+          td= book.lock_item
+          td 
+            if book.lock_item
+              span locked
+            else           
+              input( type="button", onclick=`f('${book.si_id}','${book.lock_item}')`,value="...")
+          td= pDate(book.lock_time)
+          td= book.ds_n
+
+      each book in books[1]
+        tr
+          td= book.fi_id
+          td= book.f_item
+          td= pDate(book.lock_item)
+          td 
+            if book.lock_item
+              span locked
+            else 
+              input( type="button", onclick=`f0('${book.fi_id}','${book.rcx}','${book.lock_item}')`,value="...")
+          td= pDate(book.lock_time)
+          td= book.ds_n      

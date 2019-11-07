@@ -1,0 +1,11 @@
+node_modules
+config.js
+files
+public/bootstrap-3.3.7-dist/
+public/jquery-ui-dist/
+public/css/
+public/fonts/
+public/javascripts/cool/
+public/stylesheets/cool/
+tools/
+*Thumbs.db
