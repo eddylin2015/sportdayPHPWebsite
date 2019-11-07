@@ -1,3 +1,41 @@
+table {
+    text-align: left;
+    font-size: 12px;
+    font-family: verdana;
+    background: #c0c0c0;
+    }
+    
+    table thead  {
+    cursor: pointer;
+    }
+    
+    table thead tr,
+    table tfoot tr i{
+    background: #c0c0c0;
+    }
+    
+    table tbody tr {
+    background: #f0f0f0;
+    }
+    
+    td, th {
+    border: 1px solid white;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    table, td, th {border: 1px solid black;}
+    textarea
+    {
+    display:block;
+    margin-top:0px;
+    margin-left:0px;
+    margin-right:0px;
+    margin-bottom:0px;
+    background-color:#EFFBFB
+    }
+
+
 table, th, td {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -7,24 +45,49 @@ table, th, td {
 	table tr.even {
 		background: #CCC;
 	}
-	td.ID_EDU_TD , td.ID_TT_TD , td.ID_CD_TD , td.ID_TE_TD , td.ID_WE_TD 
-	{
-		font-weight: bold;
-	}
-	td.M{
-	}
-	td.DEL_ID_EDU_TD 
-	{
-		font-weight: normal;
-		color:red;
-		text-decoration: line-through;
-	}
-	span.ADDROW_FONT{
-		font-weight: normal;
-		color:blue;
-		font-size:x-small;
-		position:absolute;
-	}
+
+
 .ui-menu { width: 80px; }
 .ui-draggable, .ui-droppable {	background-position: top;}
 li {font-size:x-small}
+#snackbar {
+	visibility: hidden;
+	min-width: 250px;
+	margin-left: -125px;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	bottom: 30px;
+	font-size: 17px;
+  }
+  
+  #snackbar.show {
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  
+  @-webkit-keyframes fadein {
+	from {bottom: 0; opacity: 0;} 
+	to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+	from {bottom: 0; opacity: 0;}
+	to {bottom: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+	from {bottom: 30px; opacity: 1;} 
+	to {bottom: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+	from {bottom: 30px; opacity: 1;}
+	to {bottom: 0; opacity: 0;}
+  }

@@ -83,6 +83,35 @@ function sp_list(cb) {
       );
     });
   }  
+function update_race_cell(conn,sql,val,siid,rc_id){
+  return new Promise(function(resolve,reject){
+    conn.query(sql,[val,siid,rc_id],(err,result)=>{
+       if(err){console.log(err);reject(err);}
+       resolve(result.affectedRows);
+    })
+  })
+}
+function update_race(siid,datajson,cb){
+  let cnt=0;
+  let affcnt=0;
+  let aff_cnt=0;
+  pool.getConnection(function (err, connection) {
+    if (err) { cb(err); return; }
+    for(let key in datajson){
+      console.log(key,datajson[key]);
+      cnt++; 
+      let f=key.split('_');
+      let sql="update sport_rc set `"+f[0]+"`=? where si_id=? and rc_id=?";
+      update_race_cell(connection,sql,datajson[key],siid,f[1]).then(function(res){
+        affcnt++;
+        aff_cnt+=res;
+        if(cnt==affcnt) cb(null,aff_cnt+"/"+affcnt);
+      });
+      
+    }
+    
+  });
+}  
 function list(cb) {
   pool.getConnection(function (err, connection) {
     if (err) { cb(err); return; }
@@ -204,6 +233,7 @@ module.exports = {
   sp_list:sp_list,
   read_field:read_field,
   read_sport:read_sport,
+  update_race:update_race,
   list: list,
   listBy: listBy,
   listMore: listMore,

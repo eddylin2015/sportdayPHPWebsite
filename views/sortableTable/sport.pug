@@ -22,45 +22,8 @@ block content
   script(src="/sortableTable/js/jquery-1.10.2.min.js")
   link(type="text/css", href="/sortableTable/js/grid.css" ,rel="stylesheet")
   script(src="/sortableTable/js/grid.js")
-
-  style.
-    table {
-    text-align: left;
-    font-size: 12px;
-    font-family: verdana;
-    background: #c0c0c0;
-    }
+  script(src="/sortableTable/js/sport_rc.js")
     
-    table thead  {
-    cursor: pointer;
-    }
-    
-    table thead tr,
-    table tfoot tr i{
-    background: #c0c0c0;
-    }
-    
-    table tbody tr {
-    background: #f0f0f0;
-    }
-    
-    td, th {
-    border: 1px solid white;
-    }
-    table {
-      border-collapse: collapse;
-    }
-    table, td, th {border: 1px solid black;}
-    textarea
-    {
-    display:block;
-    margin-top:0px;
-    margin-left:0px;
-    margin-right:0px;
-    margin-bottom:0px;
-    background-color:#EFFBFB
-    }
-
   if lock
     table
       tr
@@ -72,11 +35,13 @@ block content
           button#tab_d v
         td
           button#save_tbl SAVE
-
         if profile && profile.id && profile.id< 10
-          td= profile.id
+          td#userid= profile.id
           td
             button#lock_tbl LOCK
+        td#siid= siid
+        td#rcx= books[0][0].rcx
+
   -let rcx=books[0][0].rcx
   -let s_item=books[0][0].s_item
   -let title=books[0][0].title.split(',')
@@ -90,12 +55,30 @@ block content
       each  book in books[1]
         tr
           each fn in f
-            td= book[fn]
-          
+            if fn=='rank'
+              td(class="M" ,imemode="number",  height="30px" ,width="40px", id=`rank_${book["rc_id"]}`)= book[fn]
+            else if fn=='grk'
+              td(class="M" , height="30px" ,width="30px", id=`grk_${book["rc_id"]}`)= book[fn]
+            else if fn=='rc'
+              td(class="M" ,align="right",imemode="tel",  height="30px" ,width="100px", id=`rc_${book["rc_id"]}`)= book[fn]
+            else if fn=='note'
+              td(class="M" , height="30px" ,width="30px", id=`note_${book["rc_id"]}`)= book[fn]
+            else   
+              td= book[fn]
+
+
+  //<button onclick="myFunction()">Show Snackbar</button>
   
+  <div id="snackbar">Some text some message..</div>  
   
   script.
-    function myTrim(x){  return x.replace(/^\s+|\s+$/gm,'');}
+     function myFunction() {
+       var x = document.getElementById("snackbar");
+       x.className = "show";
+       setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+     }
+
+    
 
      
 

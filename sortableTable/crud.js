@@ -59,7 +59,8 @@ router.get('/sport.php', (req, res, next) => {
     res.render('sortableTable/sport.pug', {
       books: entities,
       profile:req.user,
-      lock:lock
+      lock:lock,
+      siid:si_id
       //nextPageToken: cursor,
     });
   });
@@ -76,7 +77,8 @@ router.get('/field.php', (req, res, next) => {
     res.render('sortableTable/field.pug', {
       books: entities,
       profile:req.user,
-      lock:lock
+      lock:lock,
+      siid:si_id
       //nextPageToken: cursor,
     });
   });
@@ -93,105 +95,34 @@ router.get('/fieldhj.php', (req, res, next) => {
     res.render('sortableTable/fieldhj.pug', {
       books: entities,
       profile:req.user,
-      lock:lock
+      lock:lock,
+      siid:si_id
       //nextPageToken: cursor,
     });
   });
 });
 
-// [START mine]
-// Use the oauth2.required middleware to ensure that only logged-in users
-// can access this handler.
-router.get('/mine', oauth2.required, (req, res, next) => {
-  model.listBy(
-    req.user.id,
-    10,
-    req.query.pageToken,
-    (err, entities, cursor) => {
-      if (err) {
-        next(err);
-        return;
-      }
-      res.render('sortableTable/list.pug', {
-        books: entities,
-        nextPageToken: cursor,
-      });
-    }
-  );
-});
-// [END mine]
 
-/**
- * GET /books/add
- *
- * Display a form for creating a book.
- */
-router.get('/add', (req, res) => {
-  res.render('sortableTable/form.pug', {
-    book: {},
-    action: 'Add',
-  });
-});
-
-/**
- * POST /books/add
- *
- * Create a book.
- */
-// [START add]
 router.post(
-  '/add',
+  '/race_post.php',
   images.multer.single('image'),
   (req, res, next) => {
     const data = req.body;
-    // If the user is logged in, set them as the creator of the book.
-    if (req.user) {
-      data.createdBy = req.user.displayName;
-      data.createdById = req.user.id;
-    } else {
-      data.createdBy = 'Anonymous';
-    }
-    // Was an image uploaded? If so, we'll use its public URL
-    // in cloud storage.
-    if (req.file && req.file.cloudStoragePublicUrl) {
-      data.imageUrl = req.file.cloudStoragePublicUrl;
-    }
-    // Save the data to the database.
-    model.create(data, (err, savedData) => {
+    const siid=data.siid;
+    const datajson=data.datajson;
+    //res.end(siid+JSON.stringify(datajson))
+    model.update_race(siid, datajson, (err, savedData) => {
       if (err) {
         next(err);
         return;
       }
-      res.redirect(`${req.baseUrl}/${savedData.id}`);
+        //      res.redirect(`${req.baseUrl}/${savedData.id}`);
+        res.end(`update ${savedData} rec. succ!`);
     });
   }
 );
-// [END add]
-
-/**
- * GET /books/:id/edit
- *
- * Display a book for editing.
- */
-router.get('/:book/edit', (req, res, next) => {
-  model.read(req.params.book, (err, entity) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.render('sortableTable/form.pug', {
-      book: entity,
-      action: 'Edit',
-    });
-  });
-});
-/**
- * POST /books/:id/edit
- *
- * Update a book.
- */
 router.post(
-  '/:book/edit',
+  '/race_lock.php',
   images.multer.single('image'),
   (req, res, next) => {
     const data = req.body;
@@ -206,39 +137,38 @@ router.post(
   }
 );
 
-/**
- * GET /books/:id
- *
- * Display a book.
- */
-router.get('/:book', (req, res, next) => {
-  model.read(req.params.book, (err, entity) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.render('sortableTable/view.pug', {
-      book: entity,
+router.post(
+  '/field_post.php',
+  images.multer.single('image'),
+  (req, res, next) => {
+    const data = req.body;
+    if(req.file && req.file.filename) data.imageUrl=req.file.filename;
+    model.update(req.params.book, data, (err, savedData) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.redirect(`${req.baseUrl}/${savedData.id}`);
     });
-  });
-});
+  }
+);
+router.post(
+  '/field_lock.php',
+  images.multer.single('image'),
+  (req, res, next) => {
+    const data = req.body;
+    if(req.file && req.file.filename) data.imageUrl=req.file.filename;
+    model.update(req.params.book, data, (err, savedData) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.redirect(`${req.baseUrl}/${savedData.id}`);
+    });
+  }
+);
 
-/**
- * GET /books/:id/delete
- *
- * Delete a book.
- */
-router.get('/:book/delete', (req, res, next) => {
-  let createdById="";
-  if(req.user && req.user.id) createdById=req.user.id;
-  model.delete(createdById,req.params.book, err => {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.redirect(req.baseUrl);
-  });
-});
+
 
 /**
  * Errors on "/books/*" routes.

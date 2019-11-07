@@ -46,11 +46,11 @@ router.get('/', (req, res, next) => {
       JSONdata[JSONdata.length]={fn:file,encfn:encodeURI(file),fctime:fstate.ctime};
     }
   });
-    res.render('namelist/filelist.pug', {
-      books: JSONdata,
-      profile:req.user
-      //nextPageToken: cursor,
-    });
+  res.render('namelist/filelist.pug', {
+    books: JSONdata,
+    profile:req.user
+    //nextPageToken: cursor,
+  });
 });
 
 router.get('/filelist.php', (req, res, next) => {
