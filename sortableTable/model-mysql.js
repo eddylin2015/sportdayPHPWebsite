@@ -59,7 +59,6 @@ function sp_list(cb) {
             return;
           }
           cb(null, results);
-          console.log(results[0])
           connection.release();
         }
       );
@@ -91,6 +90,20 @@ function update_race_cell(conn,sql,val,siid,rc_id){
     })
   })
 }
+function fmtrc(val){
+  let res=val.match(/\d+/g);
+  if(res==null)
+  {
+    return val;
+  }else if(res.length==2){
+    return (res[0].length==1? "0" : "" )+res[0]+"''"+(res[1].length==1?"0":"")+res[1]; 
+  }else if(res.length==3){
+    return (res[0].length==1?"0":"")+res[0]+"'"+(res[1].length==1?"0":"")+res[1]+"''"+(res[2].length==1?"0":"")+res[2]; 
+  }else{
+    return val;
+  }
+}
+  
 function update_race(siid,datajson,cb){
   let cnt=0;
   let affcnt=0;
@@ -98,20 +111,75 @@ function update_race(siid,datajson,cb){
   pool.getConnection(function (err, connection) {
     if (err) { cb(err); return; }
     for(let key in datajson){
-      console.log(key,datajson[key]);
       cnt++; 
       let f=key.split('_');
       let sql="update sport_rc set `"+f[0]+"`=? where si_id=? and rc_id=?";
-      update_race_cell(connection,sql,datajson[key],siid,f[1]).then(function(res){
+      let val=datajson[key];
+      if(f[0]=="rc"){val=fmtrc(val);}
+      update_race_cell(connection,sql,val,siid,f[1]).then(function(res){
         affcnt++;
         aff_cnt+=res;
         if(cnt==affcnt) cb(null,aff_cnt+"/"+affcnt);
       });
-      
     }
-    
   });
 }  
+function update_field(siid,datajson,cb){
+  let cnt=0;
+  let affcnt=0;
+  let aff_cnt=0;
+  pool.getConnection(function (err, connection) {
+    if (err) { cb(err); return; }
+    for(let key in datajson){
+      cnt++; 
+      let f=key.split('_');
+      if(f[0]=="HJ"){
+        let sql="update field_item set `"+f[1]+"`=? where fi_id=? and fi_id=?";
+        let val=datajson[key];
+        update_race_cell(connection,sql,val,siid,siid).then(function(res){
+          affcnt++;
+          aff_cnt+=res;
+          if(cnt==affcnt) cb(null,aff_cnt+"/"+affcnt);
+        });
+      }else{
+        let sql="update field_rc set `"+f[0]+"`=? where fi_id=? and frc_id=?";
+        update_race_cell(connection,sql,datajson[key],siid,f[1]).then(function(res){
+          affcnt++;
+          aff_cnt+=res;
+          if(cnt==affcnt) cb(null,aff_cnt+"/"+affcnt);
+        });
+      }
+    }
+  });
+}
+function update_race_lock(siid,cb){
+  pool.getConnection(function (err, connection) {
+    if (err) { cb(err); return; }
+    connection.query(
+      'update sport_item set lock_item=1  where si_id= ? ', [siid], (err,results) => {   //and `createdById` = ?
+        if (err) {
+          cb(err);
+          return;
+        }
+        cb(null,results);
+        connection.release();
+      });
+  });
+}
+function update_field_lock(siid,cb){
+  pool.getConnection(function (err, connection) {
+    if (err) { cb(err); return; }
+    connection.query(
+      'update field_item set lock_item=1  where fi_id=?  ', [siid], (err,results) => {   //and `createdById` = ?
+        if (err) {
+          cb(err);
+          return;
+        }
+        cb(null,results);
+        connection.release();
+      });
+  });
+}
 function list(cb) {
   pool.getConnection(function (err, connection) {
     if (err) { cb(err); return; }
@@ -234,6 +302,9 @@ module.exports = {
   read_field:read_field,
   read_sport:read_sport,
   update_race:update_race,
+  update_field:update_field,
+  update_race_lock:update_race_lock,
+  update_field_lock:update_field_lock,
   list: list,
   listBy: listBy,
   listMore: listMore,

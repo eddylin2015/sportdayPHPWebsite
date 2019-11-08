@@ -8,7 +8,6 @@ $(document).ready(function(){
 		});
 	});
 	GenOriginalData();
-	PostUrl='race_post.php';
 	$('#save_tbl').click(function(event){
 		closeedit();
 		var json={};
@@ -19,12 +18,10 @@ $(document).ready(function(){
 			if(OriginalData[$(this).attr('id')]!=$(this).text()){
 				json_count++;
 				decode=$(this).text();
-				//decode
 				$(this).text(decode);
 				json[$(this).attr('id')]=myTrim($(this).text());
 			}
 		});
-	//	PostUrl=null;
 		if(json_count>0 && PostUrl != null)
 		{
 			$.post(PostUrl,
@@ -40,12 +37,11 @@ $(document).ready(function(){
 		}else{alert("POST:\n"+JSON.stringify(json));}	
 	});
 	$('#lock_tbl').click(function(event){
-			$.post("race_lock.php",
+			$.post(LockPostUrl,
 				{siid:$("#siid").text()})
 				.done(function(data){
 				alert("lock:"+data);
 			});	
-	
 	});
 	$('#tab_r').click(function(event){ tab_dire=0;});
     $('#tab_d').click(function(event){ tab_dire=1;});

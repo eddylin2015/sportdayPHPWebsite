@@ -1,6 +1,6 @@
 table {
     text-align: left;
-    font-size: 12px;
+    /*font-size: 12px;*/
     font-family: verdana;
     background: #c0c0c0;
     }
@@ -46,10 +46,6 @@ table, th, td {
 		background: #CCC;
 	}
 
-
-.ui-menu { width: 80px; }
-.ui-draggable, .ui-droppable {	background-position: top;}
-li {font-size:x-small}
 #snackbar {
 	visibility: hidden;
 	min-width: 250px;

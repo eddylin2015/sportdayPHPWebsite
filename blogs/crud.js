@@ -42,6 +42,7 @@ router.get('/', (req, res, next) => {
     res.render('books/list.pug', {
       books: entities,
       nextPageToken: cursor,
+      profile:req.user
     });
   });
 });
@@ -62,6 +63,7 @@ router.get('/mine', oauth2.required, (req, res, next) => {
       res.render('books/list.pug', {
         books: entities,
         nextPageToken: cursor,
+        profile:req.user
       });
     }
   );
@@ -73,10 +75,11 @@ router.get('/mine', oauth2.required, (req, res, next) => {
  *
  * Display a form for creating a book.
  */
-router.get('/add', (req, res) => {
+router.get('/add', oauth2.required, (req, res) => {
   res.render('books/form.pug', {
     book: {},
     action: 'Add',
+    profile:req.user
   });
 });
 
@@ -120,7 +123,7 @@ router.post(
  *
  * Display a book for editing.
  */
-router.get('/:book/edit', (req, res, next) => {
+router.get('/:book/edit',oauth2.required, (req, res, next) => {
   model.read(req.params.book, (err, entity) => {
     if (err) {
       next(err);
@@ -129,6 +132,7 @@ router.get('/:book/edit', (req, res, next) => {
     res.render('books/form.pug', {
       book: entity,
       action: 'Edit',
+      profile:req.user
     });
   });
 });
@@ -166,6 +170,7 @@ router.get('/:book', (req, res, next) => {
     }
     res.render('books/view.pug', {
       book: entity,
+      profile:req.user
     });
   });
 });
@@ -176,8 +181,9 @@ router.get('/:book', (req, res, next) => {
  * Delete a book.
  */
 router.get('/:book/delete', (req, res, next) => {
-  let createdById="";
-  if(req.user && req.user.id) createdById=req.user.id;
+  let createdById=-1;
+  if(req.user) createdById=req.user.id;
+  console.log(`created id  ${createdById}  req.user.id ${req.user.id}`);
   model.delete(createdById,req.params.book, err => {
     if (err) {
       next(err);

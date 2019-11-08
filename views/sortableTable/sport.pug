@@ -22,6 +22,10 @@ block content
   script(src="/sortableTable/js/jquery-1.10.2.min.js")
   link(type="text/css", href="/sortableTable/js/grid.css" ,rel="stylesheet")
   script(src="/sortableTable/js/grid.js")
+  script.
+    var PostUrl="race_post.php";
+    var LockPostUrl="race_lock.php"; 
+    var imemodeforsport = 'race';
   script(src="/sortableTable/js/sport_rc.js")
     
   if lock
@@ -35,7 +39,7 @@ block content
           button#tab_d v
         td
           button#save_tbl SAVE
-        if profile && profile.id && profile.id< 10
+        if profile &&  profile.id < 10
           td#userid= profile.id
           td
             button#lock_tbl LOCK
@@ -47,6 +51,7 @@ block content
   -let title=books[0][0].title.split(',')
   -let f=rcx2f(rcx).split(',')
   span= s_item
+  span 00*00**00
   table#EDUTBL
     thead
       each tn in title
@@ -55,7 +60,9 @@ block content
       each  book in books[1]
         tr
           each fn in f
-            if fn=='rank'
+            if rcx=="RC3" && fn=="classno" 
+              td 
+            else if fn=='rank'
               td(class="M" ,imemode="number",  height="30px" ,width="40px", id=`rank_${book["rc_id"]}`)= book[fn]
             else if fn=='grk'
               td(class="M" , height="30px" ,width="30px", id=`grk_${book["rc_id"]}`)= book[fn]
@@ -66,7 +73,7 @@ block content
             else   
               td= book[fn]
 
-
+  div 1*00 > 1.00  ;  00**00 > 00''00  ; 0*00**00 > 0'00''00
   //<button onclick="myFunction()">Show Snackbar</button>
   
   <div id="snackbar">Some text some message..</div>  

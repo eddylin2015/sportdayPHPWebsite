@@ -18,6 +18,7 @@ block content
         - return ""; 
     -}  
   -}
+
   script(src="/sortableTable/webtoolkit.sortabletable.js")
   script(src="/sortableTable/js/jquery-1.10.2.min.js")
   link(type="text/css", href="/sortableTable/js/grid.css" ,rel="stylesheet")
@@ -25,11 +26,8 @@ block content
   script.
     var PostUrl="field_post.php";    //race_post.php
     var LockPostUrl="field_lock.php";
-    var imemodeforsport = 'RCFIE';
   script(src="/sortableTable/js/sport_rc.js")
-  style.
-    div.container{margin:0px;  
-
+  
   if lock
     table
       tr
@@ -41,7 +39,7 @@ block content
           button#tab_d v
         td
           button#save_tbl SAVE
-        
+
         if profile && profile.id && profile.id< 10
           td#userid= profile.id
           td
@@ -51,16 +49,21 @@ block content
   -let rcx=books[0][0].rcx
   -let s_item=books[0][0].s_item
   span= s_item
-  
-  -let fieldnames = "rank,s_number,number,classno,name,h1,h2,h3,b3,h4,h5,b5,h6,rc,note";
+  -let titlename="h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16";
+  -let fieldnames = "rank,s_number,number,classno,name,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,rc,note"
   //frc_id,rcx,
+  -let c_fieldnames = "名次,次序,比賽號,姓名,班級,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,成績,備註"
   -let fns=fieldnames.split(',');
-  -let c_fieldnames = "名<br>次,次<br>序,比賽<br>號,姓名,班級,一,二,三,B3,四,五,B5,六,成績,備註";
   -let cfns=c_fieldnames.split(',')
   table#EDUTBL
     thead
       each tn in cfns
-        th !{tn}
+        -let pftn=tn.substr(0,1);
+        if pftn=="h"
+          //th= books[0][tn]
+          th(height="30px",width="50px", imemode="number", class='M', id=`HJ_${tn}` )= books[0][0][tn]
+        else
+          th !{tn}
     tbody   
       each  book in books[1]
         tr
@@ -70,12 +73,12 @@ block content
               td= book[fn]
             else if fn=="rank"
               td(height="30px",imemode="number", width="60px", class="M", id=`rank_${book["frc_id"]}`)= book[fn]
-            else if prefix=='h' || prefix=='b'
-              td(height="30px",width="50px",align="right",imemode="tel",class="M", id=`${fn}_${book["frc_id"]}`)= book[fn]
+            else if fn=="rc"
+              td(height="30px",width="40px",align="right",class="M",id=`${fn}_${book['frc_id']}`)= book[fn]
             else   
-              td(height="30px",width="40px",class="M",id=`${fn}_${book["frc_id"]}`)= book[fn]
-
-  div 1*00 > 1.00  ;  00**00 > 00''00  ; 0*00**00 > 0'00''00 
-
+              td(height="30px",width="40px",class="M",id=`${fn}_${book["frc_id"]}`)= book[fn]          
+    
+  
+     
 
 

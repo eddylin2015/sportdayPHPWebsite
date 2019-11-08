@@ -25,10 +25,8 @@ block content
   script.
     var PostUrl="field_post.php";    //race_post.php
     var LockPostUrl="field_lock.php";
-    var imemodeforsport = 'RCFIE';
   script(src="/sortableTable/js/sport_rc.js")
-  style.
-    div.container{margin:0px;  
+  
 
   if lock
     table
@@ -51,7 +49,6 @@ block content
   -let rcx=books[0][0].rcx
   -let s_item=books[0][0].s_item
   span= s_item
-  
   -let fieldnames = "rank,s_number,number,classno,name,h1,h2,h3,b3,h4,h5,b5,h6,rc,note";
   //frc_id,rcx,
   -let fns=fieldnames.split(',');
@@ -74,8 +71,6 @@ block content
               td(height="30px",width="50px",align="right",imemode="tel",class="M", id=`${fn}_${book["frc_id"]}`)= book[fn]
             else   
               td(height="30px",width="40px",class="M",id=`${fn}_${book["frc_id"]}`)= book[fn]
-
-  div 1*00 > 1.00  ;  00**00 > 00''00  ; 0*00**00 > 0'00''00 
 
 
 

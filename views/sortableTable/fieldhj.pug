@@ -1,6 +1,7 @@
 extends ./base.pug
 
 block content
+  
   -function rcx2f(x){
     -       if(x== "RC5"){ return "rank,s_number,number,name,classno,rc,note  ";}
     -  else if(x== "RC0"){ return "rank,s_number,number,classno,name,rc,note";}
@@ -18,49 +19,18 @@ block content
         - return ""; 
     -}  
   -}
+
   script(src="/sortableTable/webtoolkit.sortabletable.js")
   script(src="/sortableTable/js/jquery-1.10.2.min.js")
   link(type="text/css", href="/sortableTable/js/grid.css" ,rel="stylesheet")
   script(src="/sortableTable/js/grid.js")
-
+  script.
+    var PostUrl="field_post.php";    //race_post.php
+    var LockPostUrl="field_lock.php";
+    var imemodeforsport = 'RCFJH';
+  script(src="/sortableTable/js/sport_rc.js")
   style.
-    table {
-    text-align: left;
-    font-size: 12px;
-    font-family: verdana;
-    background: #c0c0c0;
-    }
-    
-    table thead  {
-    cursor: pointer;
-    }
-    
-    table thead tr,
-    table tfoot tr i{
-    background: #c0c0c0;
-    }
-    
-    table tbody tr {
-    background: #f0f0f0;
-    }
-    
-    td, th {
-    border: 1px solid white;
-    }
-    table {
-      border-collapse: collapse;
-    }
-    table, td, th {border: 1px solid black;}
-    textarea
-    {
-    display:block;
-    margin-top:0px;
-    margin-left:0px;
-    margin-right:0px;
-    margin-bottom:0px;
-    background-color:#EFFBFB
-    }
-
+    div.container{margin:0px;}
   if lock
     table
       tr
@@ -74,32 +44,44 @@ block content
           button#save_tbl SAVE
 
         if profile && profile.id && profile.id< 10
-          td= profile.id
+          td#userid= profile.id
           td
             button#lock_tbl LOCK
+        td#siid= siid
+        td#rcx= books[0][0].rcx            
   -let rcx=books[0][0].rcx
   -let s_item=books[0][0].s_item
   span= s_item
-
-  -let fieldnames = "frc_id,rcx,rank,s_number,number,classno,name,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,rc,note"
-  -let c_fieldnames = ",,名次,次序,比賽號,姓名,班級,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,成績,備註"
+  -let titlename="h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16";
+  -let fieldnames = "rank,s_number,number,classno,name,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,rc,note"
+  //frc_id,rcx,
+  -let c_fieldnames = "名次,次序,比賽號,姓名,班級,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,成績,備註"
   -let fns=fieldnames.split(',');
   -let cfns=c_fieldnames.split(',')
   table#EDUTBL
     thead
       each tn in cfns
-        th !{tn}
+        -let pftn=tn.substr(0,1);
+        if pftn=="h"
+          //th= books[0][tn]
+          th(height="30px",width="50px", imemode="tel", class='M', id=`HJ_${tn}` )= books[0][0][tn]
+        else
+          th !{tn}
     tbody   
       each  book in books[1]
         tr
           each fn in fns
-            td= book[fn]
-          
+            -let prefix=fn.substr(0,1);
+            if fn=="s_number" ||  fn=="number" ||  fn=="classno" ||  fn=="name"    
+              td= book[fn]
+            else if fn=="rank"
+              td(height="30px",imemode="number", width="60px", class="M", id=`rank_${book["frc_id"]}`)= book[fn]
+            else if fn=="rc"
+              td(height="30px",width="40px",align="right",class="M",id=`${fn}_${book['frc_id']}`)= book[fn]
+            else   
+              td(height="30px",width="40px",class="M",id=`${fn}_${book["frc_id"]}`)= book[fn]          
+  div 1*00 > 1.00  ;  00**00 > 00''00  ; 0*00**00 > 0'00''00    
   
-  
-  script.
-    function myTrim(x){  return x.replace(/^\s+|\s+$/gm,'');}
-
      
 
 

@@ -137,6 +137,7 @@ function update(id, data, cb) {
 }
 
 function _delete(userid, id, cb) {
+  console.log(userid,id);
   pool.getConnection(function (err, connection) {
     if (err) { cb(err); return; }
     connection.query('DELETE FROM `blogs` WHERE createdById=?  and `id` = ? ', [userid, id], cb);

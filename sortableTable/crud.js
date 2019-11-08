@@ -33,7 +33,7 @@ router.use((req, res, next) => {
  *
  * Display a page of books (up to ten at a time).
  */
-router.get('/', (req, res, next) => {
+router.get('/', oauth2.required,  (req, res, next) => {
     //model.listMore(10, req.query.pageToken, (err, entities, cursor) => {
     model.sp_list( (err, entities, cursor) => {
     if (err) {
@@ -126,13 +126,13 @@ router.post(
   images.multer.single('image'),
   (req, res, next) => {
     const data = req.body;
-    if(req.file && req.file.filename) data.imageUrl=req.file.filename;
-    model.update(req.params.book, data, (err, savedData) => {
+    const siid=data.siid;
+    model.update_race_lock(siid, (err, savedData) => {
       if (err) {
         next(err);
         return;
       }
-      res.redirect(`${req.baseUrl}/${savedData.id}`);
+      res.end(`${siid} locked. affect ${JSON.stringify(savedData)}`)
     });
   }
 );
@@ -142,13 +142,16 @@ router.post(
   images.multer.single('image'),
   (req, res, next) => {
     const data = req.body;
-    if(req.file && req.file.filename) data.imageUrl=req.file.filename;
-    model.update(req.params.book, data, (err, savedData) => {
+    const siid=data.siid;
+    const datajson=data.datajson;
+    //res.end(siid+JSON.stringify(datajson))
+    model.update_field(siid, datajson, (err, savedData) => {
       if (err) {
         next(err);
         return;
       }
-      res.redirect(`${req.baseUrl}/${savedData.id}`);
+      //res.redirect(`${req.baseUrl}/${savedData.id}`);
+      res.end(`update ${savedData} rec. succ!`);
     });
   }
 );
@@ -157,13 +160,13 @@ router.post(
   images.multer.single('image'),
   (req, res, next) => {
     const data = req.body;
-    if(req.file && req.file.filename) data.imageUrl=req.file.filename;
-    model.update(req.params.book, data, (err, savedData) => {
+    const siid=data.siid;
+    model.update_field_lock(siid, (err, savedData) => {
       if (err) {
         next(err);
         return;
       }
-      res.redirect(`${req.baseUrl}/${savedData.id}`);
+      res.end(`${siid} locked. affect ${JSON.stringify(savedData)}`)
     });
   }
 );
