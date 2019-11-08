@@ -46,6 +46,8 @@ block content
       tr
         th(class="c1") id
         th(class="c1") s_item
+        th Name List
+        th Result Rep
         th(class="c1") lock
         th(class="c1") link
         th lock time
@@ -54,12 +56,16 @@ block content
         tr
           td= book.si_id
           td= book.s_item
+          td
+            input( type='button',value='名單') 
+          td
+            input( type='button',value='賽果')                     
           td= book.lock_item
           td 
             if book.lock_item
               span locked
             else           
-              input( type="button", onclick=`f('${book.si_id}','${book.lock_item}')`,value="...")
+              input( type="button", onclick=`f('${book.si_id}','${book.lock_item}')`,value="EDIT")
           td= pDate(book.lock_time)
           td= book.ds_n
 
@@ -67,11 +73,18 @@ block content
         tr
           td= book.fi_id
           td= book.f_item
+          td
+            input( type='button',value='名單')
+          td
+            input( type='button',value='賽果')
+
           td= pDate(book.lock_item)
           td 
             if book.lock_item
               span locked
+              
+              input( type='button',value='賽果')
             else 
-              input( type="button", onclick=`f0('${book.fi_id}','${book.rcx}','${book.lock_item}')`,value="...")
+              input( type="button", onclick=`f0('${book.fi_id}','${book.rcx}','${book.lock_item}')`,value="EDIT")
           td= pDate(book.lock_time)
           td= book.ds_n      
