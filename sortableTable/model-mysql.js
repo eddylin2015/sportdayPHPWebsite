@@ -33,7 +33,7 @@ function sp_list(cb) {
       if (err) { cb(err); return; }
       // Use the connection
       connection.query(
-        'SELECT si_id,s_item,lock_item,lock_time,ds_n FROM sport_item ;SELECT fi_id,f_item,lock_item,rcx,lock_time,ds_n FROM field_item ; ', [],
+        'SELECT si_id,s_item,lock_item,lock_time,ds_n,rcx FROM sport_item ;SELECT fi_id,f_item,lock_item,rcx,lock_time,ds_n FROM field_item ; ', [],
         (err, results) => {
           if (err) {
             cb(err);
@@ -180,6 +180,23 @@ function update_field_lock(siid,cb){
       });
   });
 }
+function update_plist(si_id,plist_str) {
+  pool.getConnection(function (err, connection) {
+    if (err) { console.log(err); return; }
+    // Use the connection
+    connection.query(
+      'update sport_item set plist=? where si_id=? ', [plist_str,si_id],
+      (err, results) => {
+        if (err) {
+          console.log(err)
+          return;
+        }
+        return results;
+        connection.release();
+      }
+    );
+  });
+}
 function list(cb) {
   pool.getConnection(function (err, connection) {
     if (err) { cb(err); return; }
@@ -237,8 +254,6 @@ function listBy(id, limit, token, cb) {
 
 
 function create(data, cb) {
-  //console.log(data);
-
   pool.getConnection(function (err, connection) {
     if (err) { cb(err); return; }
     connection.query('INSERT INTO `blogs` SET ? ', [data], (err, res) => {
@@ -297,6 +312,55 @@ function _delete(userid, id, cb) {
   });
 }
 
+function inc_prom_row(conn,sql,si_id,group_id,road,number,classno,name){
+  return new Promise(function(resolve,reject){
+    conn.query(sql,[si_id,group_id,road,number,classno,name],(err,result)=>{
+       if(err){console.log(err);reject(err);}
+       resolve(result.affectedRows);
+    })
+  })
+}
+function inc_promnamelist(siid,datajson,cb){
+  let cnt=0;
+  let affcnt=0;
+  let aff_cnt=0;
+  //
+  let group_p_cnt=datajson.length;
+  let porm_road_s=null;
+  switch(group_p_cnt){
+  case 7: porm_road_s=  ",4;,5;,3;,6;,2;,7;,8";break;
+  case 14:porm_road_s="二,4;一,4;一,5;二,5;二,3;一,3;一,6;二,6;二,2;一,2;二,7;一,7;一,8;二,8" ;break;
+  case 6: porm_road_s=",4;,5;,3;,6;,2;,7;,8";break;
+  case 12:porm_road_s= "二,4;一,4;一,5;二,5;二,3;一,3;一,6;二,6;二,2;一,2;二,7;一,7;一,8;二,8" ;
+  case 8: porm_road_s=",4;,5;,3;,6;,2;,1;,7;,8";break;
+  case 16:porm_road_s="二,4;一,4;一,5;二,5;二,3;一,3;一,6;二,6;二,2;一,2;一,1;二,1;二,7;一,7;一,8;二,8";break;
+  case 24:porm_road_s="三,4;二,4;一,4;一,5;二,5;三,5;三,3;二,3;一,3;一,6;二,6;三,6;三,2;二,2;一,2;一,1;二,1;三,1;一,7;二,7;三,7;一,8;二,8;三,8";break;
+  case 32:porm_road_s="四,4;三,4;二,4;一,4;一,5;二,5;三,5;四,5;四,3;三,3;二,3;一,3;一,6;二,6;三,6;四,6;四,2;三,2;二,2;一,2;一,1;二,1;三,1;四,1;四,7;三,7;二,7;一,7;一,8;二,8;三,8;四,8";break;
+  default:
+    if(group_p_cnt<9){
+      porm_road_s=",4;,5;,3;,6;,2;,1;,7;,8";
+    }
+    else{
+      porm_road_s="二,4;一,4;一,5;二,5;二,3;一,3;一,6;二,6;二,2;一,2;一,1;二,1;二,7;一,7;一,8;二,8";
+    }
+  }
+  porm_road_s=porm_road_s.split(";");
+  //
+  pool.getConnection(function (err, connection) {
+    if (err) { cb(err); return; }
+    for(let i=0;i<datajson.length;i++){
+      let ro=datajson[i];
+      cnt++; 
+      let tmp_r=porm_road_s[i].split(",");
+      let sql="insert into sport_rc (si_id,group_id,road,number,classno,name) values(?,?,?,?,?,?);";
+      inc_prom_row(connection,sql,siid,tmp_r[0],tmp_r[1],ro[0],ro[1],ro[2]).then(function(res){
+        affcnt++;
+        aff_cnt+=res;
+        if(cnt==affcnt) cb(null,aff_cnt+"/"+affcnt);
+      });
+    }
+  });
+}  
 module.exports = {
   sp_list:sp_list,
   read_field:read_field,
@@ -305,6 +369,8 @@ module.exports = {
   update_field:update_field,
   update_race_lock:update_race_lock,
   update_field_lock:update_field_lock,
+  update_plist:update_plist,
+  inc_promnamelist:inc_promnamelist,
   list: list,
   listBy: listBy,
   listMore: listMore,

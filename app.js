@@ -24,13 +24,13 @@ const config = require('./config');
 
 const app = express();
 app.disable('etag');
-app.use(require('morgan')('combined'));
+//app.use(require('morgan')('combined'));
 app.set('views', require('path').join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.set('trust proxy',true)
 //public static
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'files')));
+app.use(express.static('C:/AppServ/www/report_to_public'));
 
 // [START session]
 // Configure the session and session storage.

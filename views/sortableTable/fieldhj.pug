@@ -42,9 +42,9 @@ block content
           button#tab_d v
         td
           button#save_tbl SAVE
-
-        if profile && profile.id && profile.id< 10
+        if profile 
           td#userid= profile.id
+        if profile && profile.id && profile.id< 10
           td
             button#lock_tbl LOCK
         td#siid= siid

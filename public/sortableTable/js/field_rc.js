@@ -1,4 +1,5 @@
-function myTrim(x){  return x.replace(/^\s+|\s+$/gm,'');}
+imemodeforsport='field';
+function myTrim(x){	return x.replace(/^\s+|\s+$/gm,'');}
 $(document).ready(function(){
 	$('#edit_tbl').click(function(event){
 		var input_first=null;
@@ -8,14 +9,7 @@ $(document).ready(function(){
 		});
 	});
 	GenOriginalData();
-	//
-	$('#addProm_tbl').click(function(event){
-		$.post("/sortableTable/race_promnamelist_post.php",
-			{siid:$("#siid").text(),data:$('#promtxt').text()})
-			.done(function(data){
-			alert("prom:"+data);
-		});	
-	});
+	PostUrl='field_post.php';
 	$('#save_tbl').click(function(event){
 		closeedit();
 		var json={};
@@ -26,16 +20,17 @@ $(document).ready(function(){
 			if(OriginalData[$(this).attr('id')]!=$(this).text()){
 				json_count++;
 				decode=$(this).text();
+				//decode
 				$(this).text(decode);
 				json[$(this).attr('id')]=myTrim($(this).text());
 			}
 		});
+	//	PostUrl=null;
 		if(json_count>0 && PostUrl != null)
 		{
 			$.post(PostUrl,
 				{datajson:json,
-				siid:$("#siid").text()
-				})
+				siid:$("#siid").text()})
 				.done(function(data){
 				alert("update data:"+data+error_msg);
 				for(var key in json){
@@ -45,13 +40,14 @@ $(document).ready(function(){
 		}else{alert("POST:\n"+JSON.stringify(json));}	
 	});
 	$('#lock_tbl').click(function(event){
-			$.post(LockPostUrl,
+			$.post("field_lock.php",
 				{siid:$("#siid").text()})
 				.done(function(data){
 				alert("lock:"+data);
 			});	
+	
 	});
 	$('#tab_r').click(function(event){ tab_dire=0;});
-    $('#tab_d').click(function(event){ tab_dire=1;});
-    if(Number($('#userid').text())<10)   var t = new SortableTable(document.getElementById('EDUTBL'), 100);
+	$('#tab_d').click(function(event){ tab_dire=1;});
+    if($('#userid').text()<10)   var t = new SortableTable(document.getElementById('EDUTBL'), 100);
 });

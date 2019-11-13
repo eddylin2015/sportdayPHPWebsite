@@ -47,7 +47,8 @@ block content
         th(class="c1") id
         th(class="c1") s_item
         th Name List
-        th Result Rep
+        th prom Rept
+        th Resu Rept
         th(class="c1") lock
         th(class="c1") link
         th lock time
@@ -57,9 +58,18 @@ block content
           td= book.si_id
           td= book.s_item
           td
-            input( type='button',value='名單') 
+            a(href=`/sortableTable/rc/namelist/${book.si_id}`)
+              input( type='button',value='名單') 
+          -let flag = true ||    book.rcx=="RC1" || book.rcx=="RC3" 
+          if flag
+            td
+              a(href=`/sortableTable/rc/prom/${book.si_id}`)
+                input( type='button',value='進級賽果')     
+          else
+            td
           td
-            input( type='button',value='賽果')                     
+            a(href=`/sortableTable/rc/result/${book.si_id}`)
+              input( type='button',value='賽果')                     
           td= book.lock_item
           td 
             if book.lock_item
@@ -74,10 +84,13 @@ block content
           td= book.fi_id
           td= book.f_item
           td
-            input( type='button',value='名單')
+            a(href=`/sortableTable/${book.rcx}/namelist/${book.fi_id}`)
+              input( type='button',value='名單')
           td
-            input( type='button',value='賽果')
-
+          td
+            a(href=`/sortableTable/${book.rcx}/result/${book.fi_id}`)
+              input( type='button',value='賽果')
+               
           td= pDate(book.lock_item)
           td 
             if book.lock_item

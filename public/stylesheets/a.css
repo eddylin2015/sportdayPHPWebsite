@@ -1,0 +1,24 @@
+table {
+    border-collapse: collapse;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+  td {
+   border: 1px solid black;
+   text-align: center;
+}
+td.blk {
+   border: 0px solid black;
+   text-align: center;
+}
+td.gc {
+   border: 1px solid black;
+   text-align: center;
+   background-color:#7FFFD4   ;
+}
+
+table,th{
+	border: 0px solid black;
+   text-align: center;
+}

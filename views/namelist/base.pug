@@ -17,6 +17,7 @@ html(lang="en")
     title SPORTDAY
     meta(charset='utf-8')
     meta(name="viewport", content="width=device-width, initial-scale=1")
+    script(src="/javascripts/jquery.min.js")
     link(rel="stylesheet", href="/bootstrap-3.3.7-dist/css/bootstrap.min.css")
   body
     style.
@@ -31,6 +32,8 @@ html(lang="en")
               span(class="glyphicon") &#xe021
           li
             a(href="/sortableTable") 編排
+          li
+            a(href="/report_to_public/printfilelist.php?fix=pdf") 列印            
         p.navbar-text.navbar-right
           // [START profile]
           if profile

@@ -1,18 +1,26 @@
 extends ./base.pug
 
 block content
+  -function fixnum(x){return (x<10?"0":"")+x;}
   -function pDate(d){
     -if( d ){
-        - return d.getFullYear() +"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds()
+        - return d.getFullYear() +"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+fixnum(d.getHours())+":"+fixnum(d.getMinutes())+":"+fixnum(d.getSeconds())
     - }else{
         - return ""; 
     -}  
   -}
-  table
-    
+
+  script(src="/sortableTable/webtoolkit.sortabletable.js")
+  table#myTable
+    thead
+      th(class="c1",width="220") file_name
+      th(class="c1") modify_datetime
+
     each file in books
       tr
         td
           a(href=file.encfn)= file.fn
            
         td= pDate(file.fctime)
+  script.          
+    var t = new SortableTable(document.getElementById('myTable'), 100);          

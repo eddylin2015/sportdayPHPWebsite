@@ -1,0 +1,32 @@
+table {
+    width: 900px;
+    border-collapse: collapse;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+  td {
+     font-size: 22px;
+	  border-width:thin;
+   border-style: solid;
+   border-color:black;
+   text-align: center;
+   /*border: 1px solid black;*/
+}
+td.rc{text-align:right;}
+td.blk {
+   border: 0px solid white;
+   text-align: center;
+}
+td.gc {
+   border: 1px solid black;
+   text-align: center;
+   background-color:#7FFFD4   ;
+}
+
+table,th{
+	
+	border: 0px solid white;
+   text-align: center;
+}
+th{font-size:25px;}
