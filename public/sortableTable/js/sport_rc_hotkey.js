@@ -6,7 +6,10 @@ function loadDoc() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       alert(this.responseText);
-      pdffilename=this.responseText.split("!")[1];
+      var splitchar=this.responseText.indexOf('!');
+      pdffilename=this.responseText.substr(splitchar+1);
+      splitchar=pdffilename.indexOf('!');
+      pdffilename=pdffilename.substr(0,splitchar);
       flag=true;
     }
   };

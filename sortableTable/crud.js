@@ -48,6 +48,20 @@ router.get('/', oauth2.required,  (req, res, next) => {
     });
   });
 });
+router.get('/li', oauth2.required,  (req, res, next) => {
+  //model.listMore(10, req.query.pageToken, (err, entities, cursor) => {
+  model.sp_list( (err, entities, cursor) => {
+  if (err) {
+    next(err);
+    return;
+  }
+  res.render('sortableTable/list01.pug', {
+    books: entities,
+    profile:req.user
+    //nextPageToken: cursor,
+  });
+});
+});
 router.get('/sport.php', (req, res, next) => {
     //model.listMore(10, req.query.pageToken, (err, entities, cursor) => {
     let si_id=req.query.id;

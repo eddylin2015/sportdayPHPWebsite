@@ -17,6 +17,39 @@ block content
       if(fj=="RCFJH"){window.location.href=("fieldhj.php?id="+i+"&fj="+fj+"&lock="+fl);}
     }
  
+    function tmpPDF2(url,fn) {
+      var tmpPDF2_xhttp = new XMLHttpRequest();
+      tmpPDF2_xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          alert(this.responseText);
+          var splitchar=this.responseText.indexOf('!');
+          var pdffilename=this.responseText.substr(splitchar+1);
+          splitchar=pdffilename.indexOf('!');
+          pdffilename=pdffilename.substr(0,splitchar);
+          alert(pdffilename);
+          var pdf_url=encodeURI("/report_to_public/printPDFfile/files/"+pdffilename);
+          var pages=pdffilename.indexOf('名單')>0 ? 3 : 2;
+          printPDF(pdf_url,pages);          
+        }
+      };
+      var genPDFURL= "/report_to_public/genPDF?url=" + encodeURI(url) + "&fn=" + fn;
+      tmpPDF2_xhttp.open( "GET",genPDFURL , true);
+      tmpPDF2_xhttp.send();
+    }   
+    function printPDF(printPDF_URLx,y){
+       for(var i=0;i<y;i++)
+       {
+         var printPDF_xhttp = new XMLHttpRequest();
+         printPDF_xhttp.onreadystatechange = function () {
+         if (this.readyState == 4 && this.status == 200) {
+           alert(this.responseText);
+         }
+       };
+       printPDF_xhttp.open("GET", printPDF_URLx, true);
+       printPDF_xhttp.send();
+       } 
+    }
+
   style.
     table {
     text-align: left;
@@ -64,20 +97,20 @@ block content
             a(href=`/sortableTable/rc/namelist/${book.si_id}?bar=1`)
               input( type='button',value='名單') 
             if sflag
-              input(type="button",value="P3",onclick=`tmpPDF('/rc/namelist/${book.si_id}','${book.s_item}名單');`)                   
+              input(type="button",value="P3",onclick=`tmpPDF2('/rc/namelist/${book.si_id}','${book.s_item}名單');`)                   
           if pflag
             td
               a(href=`/sortableTable/rc/prom/${book.si_id}?bar=1`)
                 input( type='button',value='進級賽果')     
               span= book.p_cnt  
               if sflag  
-                input(type="button",value="P2",onclick=`tmpPDF('/rc/prom/${book.si_id}','${book.s_item}賽果');`)                   
+                input(type="button",value="P2",onclick=`tmpPDF2('/rc/prom/${book.si_id}','${book.s_item}賽果');`)                   
           else
             td
               a(href=`/sortableTable/rc/result/${book.si_id}?bar=1`)
                 input( type='button',value='賽果')  
               if sflag
-                input(type="button",value="P2",onclick=`tmpPDF('/rc/result/${book.si_id}','${book.s_item}賽果');`)                   
+                input(type="button",value="P2",onclick=`tmpPDF2('/rc/result/${book.si_id}','${book.s_item}賽果');`)                   
 
 
           td= book.lock_item
@@ -102,7 +135,7 @@ block content
               input( type='button',value='賽果')
               
             if fflag
-              input(type="button",value="P2",onclick=`tmpPDF('/${book.rcx}/result/${book.fi_id}','${book.f_item}賽果');`)                   
+              input(type="button",value="P2",onclick=`tmpPDF2('/${book.rcx}/result/${book.fi_id}','${book.f_item}賽果');`)                   
 
                
           td=  book.lock_item
