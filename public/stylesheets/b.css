@@ -6,7 +6,7 @@ table {
 }
 
   td {
-     font-size: 22px;
+     font-size: 19px;
 	  border-width:thin;
    border-style: solid;
    border-color:black;
@@ -30,3 +30,9 @@ table,th{
    text-align: center;
 }
 th{font-size:25px;}
+div.fbar {
+   position: fixed;
+   bottom: 20px;
+   right: 0;
+   width: 150px;
+ }

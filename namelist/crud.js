@@ -36,7 +36,6 @@ router.use((req, res, next) => {
  */
 const dir="C:/AppServ/www/report_to_public/namelist/"
 router.get('/', (req, res, next) => {
-  console.log(dir);
   let files=fs.readdirSync(dir);
   let JSONdata=[];
   files.forEach(function(file){
@@ -55,7 +54,6 @@ router.get('/', (req, res, next) => {
 
 router.get('/filelist.php', (req, res, next) => {
   //let dir=process.cwd()+"/files/namelist/";
-  console.log(dir);
   let files=fs.readdirSync(dir);
   let JSONdata=[];
   files.forEach(function(file){

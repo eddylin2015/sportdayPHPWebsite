@@ -52,7 +52,7 @@ block content
   -let s_item=books[0][0].s_item
   span= s_item
   
-  -let fieldnames = "rank,s_number,number,classno,name,h1,h2,h3,b3,h4,h5,b5,h6,rc,note";
+  -let fieldnames = "rank,s_number,number,classno,name,h1,h2,h3,B3,h4,h5,B5,h6,rc,note";
   //frc_id,rcx,
   -let fns=fieldnames.split(',');
   -let c_fieldnames = "名<br>次,次<br>序,比賽<br>號,姓名,班級,一,二,三,B3,四,五,B5,六,成績,備註";
@@ -69,13 +69,13 @@ block content
             if fn=="s_number" ||  fn=="number" ||  fn=="classno" ||  fn=="name"    
               td= book[fn]
             else if fn=="rank"
-              td(height="30px",imemode="number", width="60px", class="M", id=`rank_${book["frc_id"]}`)= book[fn]
-            else if prefix=='h' || prefix=='b'
+              td(height="30px",imemode="tel", width="60px", class="M", id=`rank_${book["frc_id"]}`)= book[fn]
+            else if prefix=='h' || prefix=='B'
               td(height="30px",width="50px",align="right",imemode="tel",class="M", id=`${fn}_${book["frc_id"]}`)= book[fn]
             else   
               td(height="30px",width="40px",class="M",id=`${fn}_${book["frc_id"]}`)= book[fn]
 
-  div 1*00 > 1.00  ;  00**00 > 00''00  ; 0*00**00 > 0'00''00 
+  div 1*00 > 1.00  ;  00**00 > 00''00  ; 0*00**00 > 0'00''00  *>X
 
 
 

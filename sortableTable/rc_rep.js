@@ -46,6 +46,7 @@ function title(RCX, item)
 
 function gr_(RCX,  ro)
 {
+   if(ro==null) return "error";
    let colspan = RCX=="RC1"? 9 : 7;
    let gr9 = "<tr><td>GR<td colspan=2>{0}<td colspan=2>{1}<td>{2}<td colspan=2>{3}<td>{4}";
    let gr7 = "<tr><td>GR<td colspan=1>{0}<td colspan=2>{1}<td>{2}<td colspan=1>{3}<td>{4}";
@@ -155,7 +156,7 @@ function rcline(RCX,ro)
          <td>${ro.h5}
          <td>${ro.B5}
          <td>${ro.h6}
-         <td align="right"${ro.rc}</td>
+         <td align="right">${ro.rc}</td>
          <td>${ro.note}`;break;
          case "RCFJH":let res=`<tr>
          <td rowspan=2>${ro.rank}
@@ -217,7 +218,7 @@ function rcline(RCX,ro)
          <td>          ${ro.road}
          <td colspan=2>${ro.name}
          <td colspan=2>${ro.rc}
-         <td>          ${note}`;
+         <td>          ${ro.note}`;
              //rank, road,  name,  rc, note);
          case "RC4": return `<tr>
          <td>${ro.rank}
@@ -454,7 +455,7 @@ function out2html__field(data)
             }
             if (item != null)
             {
-                for (let i = LineNo; i < 25; i++)
+                for (let i = LineNo; i < 23; i++)
                 {
                     htmlrcarr.push(blankline(RCX));
                     LineNo++;
@@ -474,6 +475,3 @@ module.exports = {
     out2html__field:out2html__field,
     out2html__jumphigh:out2html__jumphigh,
   };
-    /*
-        
-*/

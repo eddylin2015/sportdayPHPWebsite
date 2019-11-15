@@ -59,7 +59,6 @@ function sp_list(cb) {
             return;
           }
           cb(null, results);
-          console.log(results[0])
           connection.release();
         }
       );
@@ -140,7 +139,6 @@ function listBy(id, limit, token, cb) {
 
 
 function create(data, cb) {
-  //console.log(data);
 
   pool.getConnection(function (err, connection) {
     if (err) { cb(err); return; }

@@ -106,6 +106,8 @@ function editCell(cell) {
 		var val = cell.text();
 		if (cell.attr('id').substring(0, 2) == 'rc') {
 			val = val.replace(/'/g, "*");
+		}else if (cell.attr('id').substring(0, 2) == 'B3'||cell.attr('id').substring(0, 2) == 'B5') {
+			val = val.replace(/'/g, "*");
 		}else if (imemodeforsport == 'RCFIE' && cell.attr('id').substring(0, 1) == 'h') {
 			val = val.replace('.', "*");
 		} 
@@ -127,8 +129,9 @@ function closeedit() {
 			input = $(this).children();
 			strv = input.val();
 			if ($(this).attr('id').substring(0, 2) == 'rc') { strv = strv.replace(/[*]/g, "'"); }
-			else if (imemodeforsport == 'RCFIE' && $(this).attr('id').substring(0, 1) == 'h') {
-				strv = strv.replace('*', '.');
+			else if (imemodeforsport == 'RCFIE' && ($(this).attr('id').substring(0, 1) == 'h' || $(this).attr('id').substring(0, 1) == 'B')) 
+			{
+				if(strv=='*') {strv="X"}else{ strv = strv.replace('*', '.');}
 			} else if (imemodeforsport == 'RCFJH' && $(this).attr('id').substring(0, 1) == 'h') {
 				strv = strv.toUpperCase();
 			}else if (imemodeforsport == 'RCFJH' && $(this).attr('id').substring(0, 2) == 'HJ') {

@@ -11,6 +11,7 @@ block content
   -}
 
   script(src="/sortableTable/webtoolkit.sortabletable.js")
+  input#myInput(type="text", placeholder="Search..")
   table#myTable
     thead
       th(class="c1",width="220") file_name
@@ -23,4 +24,12 @@ block content
            
         td= pDate(file.fctime)
   script.          
-    var t = new SortableTable(document.getElementById('myTable'), 100);          
+    var t = new SortableTable(document.getElementById('myTable'), 100);      
+    $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+    });        

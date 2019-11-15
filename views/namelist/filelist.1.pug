@@ -10,6 +10,7 @@ block content
     -}  
   -}
   script(src="/sortableTable/webtoolkit.sortabletable.js")  
+  input#myInput(type="text", placeholder="Search..")
   table#myTable
     thead
       th(class="c1",width="220") file_name
@@ -26,15 +27,27 @@ block content
            
         td= pDate(file.fctime)
         td 
-          button(onclick=`printPDF('/report_to_public/printPDFfile${file.encfn}');`) PRT1
+          button(onclick=`printPDF('/report_to_public/printPDFfile${file.encfn}',1);`) PRT1
         td 
-          button(onclick=`printPDF('/report_to_public/printPDFfile2${file.encfn}');`) PRT2
+          button(onclick=`printPDF('/report_to_public/printPDFfile${file.encfn}',2);`) PRT2
         td 
-          button(onclick=`printPDF('/report_to_public/printPDFfile3${file.encfn}');`) PRT3     
-        td                 
-          button(onclick=`tmp_to_pub('/report_to_public/tmpToPub${file.encfn}');`) tmp_to_pub
-  script.          
-    function printPDF(x){
+          button(onclick=`printPDF('/report_to_public/printPDFfile${file.encfn}',3);`) PRT3     
+        -let tmpflag= file.fn.indexOf("tmp.pdf")>0
+        td       
+          if tmpflag
+            
+            button(onclick=`tmp_to_pub('/report_to_public/tmpToPub${file.encfn}');`) tmp_to_pub
+  script.         
+    $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+    });           
+    function printPDF(x,y){
+      for(var i=0;i<y;i++)
        $.get(x,function(data){alert(data);})
     }
     function tmp_to_pub(x){

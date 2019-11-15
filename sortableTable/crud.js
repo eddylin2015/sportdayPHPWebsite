@@ -173,13 +173,15 @@ router.post(
 );
 router.get('/rc/namelist/:book', (req, res, next) => {
   //model.listMore(10, req.query.pageToken, (err, entities, cursor) => {
+  if(req.query.bar) res.write(`<div class="fbar""><button onclick='fa()'>PDF</button><button onclick='fb()'>PR2</button>  <button onclick='fc()'>PR3</button></div>`);
+  
   let si_id=req.params.book;
-
   model.read_sport( si_id,(err, entities, cursor) => {
   if (err) {
     next(err);
     return;
   }//base req.Url
+
   res.write(`<script>var fn='${entities[0][0].s_item}名單';var url='${req.url}';</script><script src='/sortableTable/js/sport_rc_hotkey.js'></script>`)
   if(entities[0][0].rcx=="RC5")
   {
@@ -204,7 +206,8 @@ return Number(n1)-Number(n2);
 }
 router.get('/rc/result/:book', (req, res, next) => {
   //model.listMore(10, req.query.pageToken, (err, entities, cursor) => {
-    let si_id=req.params.book;
+  if(req.query.bar) res.write(`<div class="fbar""><button onclick='fa()'>PDF</button><button onclick='fb()'>PR2</button>  <button onclick='fc()'>PR3</button></div>`);
+  let si_id=req.params.book;
   model.read_sport( si_id,(err, entities, cursor) => {
   if (err) {
     next(err);
@@ -241,13 +244,14 @@ function prom_rc_sort(a,b){
   }
 router.get('/rc/prom/:book', (req, res, next) => {
   //model.listMore(10, req.query.pageToken, (err, entities, cursor) => {
-    let si_id=req.params.book;
+  if(req.query.bar) res.write(`<div class="fbar""><button onclick='fa()'>PDF</button><button onclick='fb()'>PR2</button>  <button onclick='fc()'>PR3</button></div>`);
+  let si_id=req.params.book;
   model.read_sport( si_id,(err, entities, cursor) => {
   if (err) {
     next(err);
     return;
   }
-  let p_cnt=entities[1][0].p_cnt;
+  let p_cnt=entities[0][0].p_cnt;
   p_cnt=p_cnt==null?8:p_cnt;
   entities[1].sort(prom_rc_sort);
   let plist=[]
@@ -278,13 +282,14 @@ router.get('/rc/prom/:book', (req, res, next) => {
 });
 router.get('/RCFIE/namelist/:book', (req, res, next) => {
   //model.listMore(10, req.query.pageToken, (err, entities, cursor) => {
-    let si_id=req.params.book;
+  
+  let si_id=req.params.book;
   model.read_field(si_id, (err, entities, cursor) => {
   if (err) {
     next(err);
     return;
   }
-  res.write(`<script>var fn='${entities[0][0].s_item}名單';var url='${req.url}';</script><script src='/sortableTable/js/sport_rc_hotkey.js'></script>`)
+  res.write(`<script>var fn='${entities[0][0].f_item}名單';var url='${req.url}';</script><script src='/sortableTable/js/sport_rc_hotkey.js'></script>`)
     res.end(rc_rep.out2html__field(entities));
   });
 });
@@ -295,24 +300,13 @@ router.get('/RCFJH/namelist/:book', (req, res, next) => {
     next(err);
     return;
   }
-  res.write(`<script>var fn='${entities[0][0].s_item}名單';var url='${req.url}';</script><script src='/sortableTable/js/sport_rc_hotkey.js'></script>`)
+  res.write(`<script>var fn='${entities[0][0].f_item}名單';var url='${req.url}';</script><script src='/sortableTable/js/sport_rc_hotkey.js'></script>`)
   res.end(rc_rep.out2html__jumphigh(entities));
 });
 });
 router.get('/RCFIE/result/:book', (req, res, next) => {
   //model.listMore(10, req.query.pageToken, (err, entities, cursor) => {
-    let si_id=req.params.book;
-  model.read_field(si_id, (err, entities, cursor) => {
-  if (err) {
-    next(err);
-    return;
-  }
-  entities[1].sort(rc_sort);
-  res.write(`<script>var fn='${entities[0][0].s_item}賽果';var url='${req.url}';</script><script src='/sortableTable/js/sport_rc_hotkey.js'></script>`)
-    res.end(rc_rep.out2html__field(entities));
-  });
-});
-router.get('/RCFJH/result/:book', (req, res, next) => {
+  if(req.query.bar) res.write(`<div class="fbar""><button onclick='fa()'>PDF</button><button onclick='fb()'>PR2</button>  <button onclick='fc()'>PR3</button></div>`);  
   let si_id=req.params.book;
   model.read_field(si_id, (err, entities, cursor) => {
   if (err) {
@@ -320,7 +314,20 @@ router.get('/RCFJH/result/:book', (req, res, next) => {
     return;
   }
   entities[1].sort(rc_sort);
-  res.write(`<script>var fn='${entities[0][0].s_item}賽果';var url='${req.url}';</script><script src='/sortableTable/js/sport_rc_hotkey.js'></script>`)
+  res.write(`<script>var fn='${entities[0][0].f_item}賽果';var url='${req.url}';</script><script src='/sortableTable/js/sport_rc_hotkey.js'></script>`)
+    res.end(rc_rep.out2html__field(entities));
+  });
+});
+router.get('/RCFJH/result/:book', (req, res, next) => {
+  if(req.query.bar) res.write(`<div class="fbar""><button onclick='fa()'>PDF</button><button onclick='fb()'>PR2</button>  <button onclick='fc()'>PR3</button></div>`);  
+  let si_id=req.params.book;
+  model.read_field(si_id, (err, entities, cursor) => {
+  if (err) {
+    next(err);
+    return;
+  }
+  entities[1].sort(rc_sort);
+  res.write(`<script>var fn='${entities[0][0].f_item}賽果';var url='${req.url}';</script><script src='/sortableTable/js/sport_rc_hotkey.js'></script>`)
   res.end(rc_rep.out2html__jumphigh(entities));
 });
 });

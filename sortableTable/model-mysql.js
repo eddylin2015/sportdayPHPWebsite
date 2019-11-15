@@ -33,7 +33,7 @@ function sp_list(cb) {
       if (err) { cb(err); return; }
       // Use the connection
       connection.query(
-        'SELECT si_id,s_item,lock_item,lock_time,ds_n,rcx FROM sport_item ;SELECT fi_id,f_item,lock_item,rcx,lock_time,ds_n FROM field_item ; ', [],
+        'SELECT si_id,s_item,lock_item,lock_time,ds_n,rcx,p_cnt FROM sport_item order by si_id ;SELECT fi_id,f_item,lock_item,rcx,lock_time,ds_n FROM field_item order by fi_id; ', [],
         (err, results) => {
           if (err) {
             cb(err);
@@ -47,7 +47,7 @@ function sp_list(cb) {
   }
   //SELECT rc_id,$f FROM sport_rc where si_id=$id order by length(group_id), group_id,road,BIT_LENGTH( s_number),s_number;
   function read_sport(si_id,cb) {
-    let gr_si_id=si_id / 10 * 10;
+    let gr_si_id=Math.floor(si_id / 10) * 10;
     pool.getConnection(function (err, connection) {
       if (err) { cb(err); return; }
       // Use the connection

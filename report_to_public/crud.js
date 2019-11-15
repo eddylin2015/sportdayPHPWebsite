@@ -109,7 +109,6 @@ function spawn_run(cmdarg,callback){
 	ls.on('close',function(code){return callback(result)});
 }
 function spawn_php(cmdarg,res){
-  console.log("start print",cmdarg)
 try{
 		spawn_run(cmdarg,function(result){res.end(result)});
 	}catch(err)
@@ -122,7 +121,13 @@ router.get('/printPDFfile/files/:book',oauth2.required,  (req, res, next) => {
   //let dir=process.cwd()+"/files/report_to_public/";
   res.write(req.params.book);
   if(req.user.id>10) {res.end("no right!");return;}
-  spawn_php(["/p",dir+req.params.book],res);
+  if (fs.existsSync(dir+req.params.book)) {
+    try{
+     spawn_php(["/p",dir+req.params.book],res);
+    }catch(err){
+      res.end(err.toString());
+    }
+  }
 });
 router.get('/printPDFfile2/files/:book',oauth2.required,  (req, res, next) => {
   //let dir=process.cwd()+"/files/report_to_public/";
@@ -143,16 +148,18 @@ router.get('/printPDFfile3/files/:book',oauth2.required,  (req, res, next) => {
   if(req.user.id>10) {res.end("no right!");return;}
   for(let i=0;i<3;i++)
   try{
-		spawn_run(["/p",dir+req.params.book],function(result){console.log(result)});
+    if (fs.existsSync(dir+req.params.book)) {
+       spawn_run(["/p",dir+req.params.book],function(result){console.log(result)});
+    }
 	}catch(err)
 		{
 			console.log("exception:"+err);
 		}
     res.end("wait minute");
 });
+const wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe';
 function genpdf_run(cmdarg,callback){
-  console.log(cmdarg);
-	var ls = cp.spawn('C:/AppServ/sportdayPHPWebsite/tools/wkhtmltox/bin/wkhtmltopdf.exe'/*command*/, cmdarg/*args*/, {}/*options, [optional]*/);
+	var ls = cp.spawn( wkhtmltopdf /*command*/, cmdarg/*args*/, {}/*options, [optional]*/);
 	var result='';
 	ls.stdout.on('data', (data) => {result+=data.toString('utf8');});
 	ls.on('close',function(code){return callback(result)});
@@ -164,12 +171,11 @@ router.get('/genPDF',oauth2.required,  (req, res, next) => {
   if(req.user.id>10) {res.end("no right!");return;}
   try{
     let fileurl="http://localhost/sortableTable"+req.query.url;
-		genpdf_run([fileurl,dir+filename],function(result){console.log(result)});
+    genpdf_run([fileurl,dir+filename],function(result){res.end(`!${filename}!OK!${result}`)});
 	}catch(err)
 		{
 			console.log("exception:"+err);
 		}
-    res.end("wait minute");
 });
 
 
@@ -179,9 +185,12 @@ router.get('/tmpToPub/files/:book',oauth2.required,  (req, res, next) => {
   let sfile=dir+req.params.book;
   if(sfile.indexOf('_tmp.pdf')>0){
     let dfile=sfile.replace("_tmp.pdf","_pub.pdf");
-    console.log(sfile,dfile)
-    fs.renameSync(sfile,dfile);
+    if (fs.existsSync(sfile)) {
+      fs.renameSync(sfile,dfile);
     res.end("ok! to pub")
+    }else{
+      res.end("file not exists!")
+    }
   }else{
     res.end("ERRor tmp file to pub");
   }

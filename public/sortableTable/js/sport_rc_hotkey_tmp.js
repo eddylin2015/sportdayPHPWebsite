@@ -1,42 +1,43 @@
 'use strict';
-var flag=false;
-var pdffilename=null;
+var flag = false;
+var pdffilename = null;
 function loadDoc() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       alert(this.responseText);
-      pdffilename=this.responseText.split("!")[1];
-      flag=true;
+      pdffilename = this.responseText.split("!")[1];
+      flag = true;
     }
   };
   xhttp.open("GET", "/report_to_public/genPDF?url=" + encodeURI(url) + "&fn=" + fn, true);
   xhttp.send();
 }
-function printPDF(x,y){
-  for(var i=0;i<y;i++)
-  {
+function printPDF(x, y) {
+  for (var i = 0; i < y; i++) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      alert(`${this.responseText}`);
-    }
-  };
-  xhttp.open("GET", x, true);
-  xhttp.send();
+      if (this.readyState == 4 && this.status == 200) {
+        alert(`${this.responseText}`);
+      }
+    };
+    xhttp.open("GET", x, true);
+    xhttp.send();
   }
 }
-function fa(){loadDoc();}
-function fb(){
-  if(pdffilename){
-    var pdf_url=encodeURI("/report_to_public/printPDFfile/files/"+pdffilename);
-    printPDF(pdf_url,2);
+function fa() {
+  alert("a");
+}
+function fb() {
+  if (pdffilename) {
+    var pdf_url = encodeURI("/report_to_public/printPDFfile/files/" + pdffilename);
+    // printPDF(pdf_url,2);
   }
 }
-function fc(){
-  if(pdffilename){
-    var pdf_url=encodeURI("/report_to_public/printPDFfile/files/"+pdffilename);
-    printPDF(pdf_url,3);
+function fc() {
+  if (pdffilename) {
+    var pdf_url = encodeURI("/report_to_public/printPDFfile/files/" + pdffilename);
+    // printPDF(pdf_url,3);
   }
 }
 document.addEventListener('keydown', (event) => {
