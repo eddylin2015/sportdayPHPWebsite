@@ -104,6 +104,22 @@ nconf
     SP_DB:'',
   });
 ```
+# using sportgroup/sport_rcmrk/config.js
+
+```
+var mysql = require("mysql");
+const config = require('../../config');
+
+exports.localmysql= mysql.createConnection({
+    host: config.get('MYSQL_HOST'),
+    user: config.get('MYSQL_USER'),
+    password: config.get('MYSQL_PASSWORD'),
+    database: config.get('MYSQL_DB'),
+    multipleStatements: true,
+    acquireTimeout: 50000    
+});
+```
+
 
 # 其它Console
 - C:/Apache/MySQL Server 8.0
