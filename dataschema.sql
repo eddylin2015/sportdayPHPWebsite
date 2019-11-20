@@ -139,3 +139,20 @@ CREATE TABLE `sport_item` (
   `p_cnt` int(11) DEFAULT NULL,
   `plist` text COLLATE utf8_bin
 ) ENGINE=MyISAM;
+
+CREATE TABLE `sport_history` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SI_ID` int(6) DEFAULT NULL,
+  `SPNO` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `SP_ITEM` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `CLASSNO` varchar(12) COLLATE utf8_bin DEFAULT NULL,
+  `NAME` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `RC` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `SP_RANK` varchar(4) COLLATE utf8_bin DEFAULT NULL,
+  `NOTE` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PERIOD_NO` int(4) DEFAULT NULL,
+  `SP_MRK` int(6) DEFAULT NULL,
+  `r4xg` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `ITEM` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) 
