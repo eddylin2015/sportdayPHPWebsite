@@ -106,7 +106,7 @@ block content
       [21,	0,	0,	0,	1,	1,	0,	0,	0,	1,	1,	],
       [22,	1,	1,	1,	0,	0,	1,	1,	1,	0,	0,	],
     ];
-    let gridctxt="<p><table><tr><td><td>";
+    let gridctxt="<p><table class='table table-bordered'><tr><td><td>";
     for(let i=0;i<gdata.length/2;i++)
     {
       gridctxt+="<td>"+gdata[i*2];;
@@ -123,7 +123,7 @@ block content
       }
     }
     document.getElementById('item_grid').innerHTML=gridctxt;
-    gridctxt="<p><table>";
+    gridctxt="<p><table class='table table-bordered'>";
     for(let i=0;i<rcx.length;i++)
     {
       gridctxt+="<tr><td>"+rcx[i];;
