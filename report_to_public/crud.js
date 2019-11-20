@@ -19,8 +19,10 @@ const images = require('../lib/images');
 const model = require('./model-mysql');
 const oauth2=require('../lib/oauth2');
 const fs=require("fs");
+const config = require('../config');
+
 const router = express.Router();
-const dir="C:/AppServ/www/report_to_public/files/";
+const dir=config.get('SP_REPORT_TO_PUBLIC');
 // Automatically parse request body as form data
 router.use(bodyParser.urlencoded({extended: false}));
 
@@ -103,7 +105,7 @@ router.get('/printfilelist.php',oauth2.required,  (req, res, next) => {
 });
 const cp=require('child_process');
 function spawn_run(cmdarg,callback){
-	var ls = cp.spawn('C:/Program Files (x86)/Foxit Software/Foxit Reader/FoxitReader.exe'/*command*/, cmdarg/*args*/, {}/*options, [optional]*/);
+	var ls = cp.spawn(config.get("FOXITREADER")/*command*/, cmdarg/*args*/, {}/*options, [optional]*/);
 	var result='';
 	ls.stdout.on('data', (data) => {result+=data.toString('utf8');});
 	ls.on('close',function(code){return callback(result)});
@@ -157,7 +159,7 @@ router.get('/printPDFfile3/files/:book',oauth2.required,  (req, res, next) => {
 		}
     res.end("wait minute");
 });
-const wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe';
+const wkhtmltopdf=config.get("WKHTML");
 function genpdf_run(cmdarg,callback){
 	var ls = cp.spawn( wkhtmltopdf /*command*/, cmdarg/*args*/, {}/*options, [optional]*/);
 	var result='';

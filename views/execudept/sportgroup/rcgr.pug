@@ -1,0 +1,149 @@
+extends ./base.pug
+block content
+  style.
+    th {font-size:14px;}
+    td {font-size:14px;}
+  script(src='/javascripts/cool/grid_export.js')
+  -var fn= "sport_gr";
+  form(method="POST", enctype="multipart/form-data",action=`http://192.168.101.250/qm/CGI/ExpXls.php?charset=utf-8&filename=${fn}.xls`)#CSVFrmPOST
+    .form-group.hidden
+      input.form-control(type="text", name="CSVFrmPOSTNAME", id="CSVFrmPOSTVALUE")
+  h3= fn 
+  .btn-group
+    a(href='#', class='btn btn-primary btn-sm')#exportbtn
+      i.glyphicon.glyphicon-download-alt
+      span  匯出Xls
+    a(href='#', class='btn btn-primary btn-sm')#prtbtn
+      i.glyphicon.glyphicon-print
+      span Print
+  div#tableContent      
+    table(class="table table-bordered")#desc
+      tr
+        th ID
+        th SIID
+        th GR_RC
+        th NAME
+        th CLASS
+        th PERIOD
+        th DATE
+        th ITEM      
+      each book in books
+        tr
+          td= book.id
+          td= book.si_id
+          td= book.gr_rc
+          td= book.name
+          td= book.classno
+          td= book.gr_period
+          td= book.gr_date
+          td= book.item
+
+  div#item_grid
+  div#rcx_grid
+
+  if !books.length
+    p No work log found.
+
+
+  nav 
+    ul.pager
+      -var prePageToken = nextPageToken - 4000 > 0 ? nextPageToken - 4000 : 0
+      if prePageToken == 0
+        li
+          a(href=`?pageToken=${encodeURIComponent(prePageToken)}`) Prev      
+      if nextPageToken 
+        li
+          a(href=`?pageToken=${encodeURIComponent(nextPageToken)}`) Next
+
+  script(type="text/javascript").
+    let rcx=[
+     "RC5 si_id,rcx,rank,s_number,number,name,classno,rc,note",
+     "RC5 名次,小號,號碼,姓名,班別,成績,備註 //800以上 決 si_id( 6,7,8,9,10) ",
+     "RC7 si_id,rcx,rank,group_id,s_number,number,name,classno,rc,grk,note",
+     "RC7 名次,組次,小號,號碼,姓名,班別,成績,GRK,備註 //800以上 分組決 ",
+     "RC1 si_id,rcx,rank,group_id,road,number,classno,name,rc,grk,note",
+     "RC1 名次,組次,道次,號碼,姓名,班別,成績,GRK,備註 //短跑 初,複 si_id( 1,2,3,4,5 , 11,12,13,14) ",
+     "RC2 si_id,rcx,rank,road,number,classno,name,rc,note",
+     "RC2 名次,道次,號碼,姓名,班級,成績,備註  //短跑 決 ",
+     "RC3 si_id,rcx,rank,group_id,road,name,number,rc,classno,grk,note",
+     "RC3 名次,組次,道次,隊名,,成績,,GRK,備註 //4x初, 複 si_id( 15, 16, 17)",
+     "RC4 si_id,rcx,rank,road,name,number,rc,classno,note ",
+     "RC4 名次,道次,隊名,,成績,,備註 //4x決賽 ",
+     "RCFIE",
+     "RCFJH",
+     ];
+    let data = [
+      "50M", "010", "60M", "020", "100M", "030", "200M", "040","400M", "050", "800M", "060",
+      "1000M", "070", "1500M", "080", "3000M", "090", "5000M", "100", 
+      "60M欄", "110", "80M欄", "120", "100M欄", "130", "110M欄", "140",
+      "4x50M", "150", "4x100M", "160","4x400M", "170",
+      "跳高", "180", "跳遠", "190", "三級跳遠", "200", "壘球", "210", "鉛球", "220" ];
+    let gdata=[    
+      "男A", "11000",    "男B", "12000",    "男C", "13000",    "男D", "14000",    "男E", "15000",
+      "女A", "21000",    "女B", "22000",    "女C", "23000",    "女D", "24000",    "女E", "25000",
+    ]; 
+    let grid=[
+      [1,	0,	0,	0,	0,	1,	0,	0,	0,	0,	1,	],
+      [2,	0,	0,	0,	1,	0,	0,	0,	0,	1,	0,	],
+      [3,	1,	1,	1,	0,	0,	1,	1,	1,	0,	0,	],
+      [4,	1,	1,	1,	0,	0,	1,	1,	1,	0,	0,	],
+      [5,	1,	1,	0,	0,	0,	1,	1,	0,	0,	0,	],
+      [6,	1,	1,	0,	0,	0,	1,	1,	0,	0,	0,	],
+      [7,	0,	0,	0,	1,	0,	0,	0,	0,	1,	0,	],
+      [8,	1,	1,	1,	0,	0,	1,	1,	1,	0,	0,	],
+      [9,	0,	1,	0,	0,	0,	1,	1,	0,	0,	0,	],
+      [10,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	],
+      [11,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0,	],
+      [12,	0,	0,	1,	0,	0,	1,	1,	0,	0,	0,	],
+      [13,	0,	1,	0,	0,	0,	1,	0,	0,	0,	0,	],
+      [14,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	],
+      [15,	0,	0,	0,	1,	1,	0,	0,	0,	1,	1,	],
+      [16,	1,	1,	1,	0,	0,	1,	1,	1,	0,	0,	],
+      [17,	1,	1,	0,	0,	0,	1,	1,	0,	0,	0,	],
+      [18,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	],
+      [19,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	],
+      [20,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	],
+      [21,	0,	0,	0,	1,	1,	0,	0,	0,	1,	1,	],
+      [22,	1,	1,	1,	0,	0,	1,	1,	1,	0,	0,	],
+    ];
+    let gridctxt="<p><table><tr><td><td>";
+    for(let i=0;i<gdata.length/2;i++)
+    {
+      gridctxt+="<td>"+gdata[i*2];;
+    }
+    for(let i=0;i<grid.length;i++)
+    {
+      gridctxt+="<tr><td>"+grid[i][0]+"<td>"+data[i*2];
+      for(let j=1;j<11;j++){
+        if(grid[i][j]==0){
+          gridctxt+="<td>";
+        }else{
+          gridctxt+="<td>"+data[i*2];
+        }          
+      }
+    }
+    document.getElementById('item_grid').innerHTML=gridctxt;
+    gridctxt="<p><table>";
+    for(let i=0;i<rcx.length;i++)
+    {
+      gridctxt+="<tr><td>"+rcx[i];;
+    }
+    document.getElementById('rcx_grid').innerHTML=gridctxt;
+    $(document).ready(function(){
+      $('#prtbtn').click(function(){
+        var divid= document.getElementById('tableContent');
+        var popupWin = window.open('', '_blank', 'width=350,height=150,location=no,left=200px');
+        popupWin.document.open();
+        popupWin.document.write('<html><title>prt</title></head><body>');
+        popupWin.document.write('#{fn}');
+        popupWin.document.write(divid.innerHTML);
+        popupWin.print();
+        popupWin.document.close();
+      });
+      $('#exportbtn').click(function(){
+        var txt= document.getElementById('tableContent').innerHTML;
+        document.getElementById('CSVFrmPOSTVALUE').value = txt;
+        document.getElementById('CSVFrmPOST').submit();
+      });
+    });      
+

@@ -1,0 +1,90 @@
+extends ./base.pug
+block content
+  style.
+    th {font-size:14px;}
+    td {font-size:14px;}
+  script(src='/javascripts/cool/grid_export.js')
+  -var fn= "sport_rc_history";
+  form(method="POST", enctype="multipart/form-data",action=`http://192.168.101.250/qm/CGI/ExpXls.php?charset=utf-8&filename=${fn}.xls`)#CSVFrmPOST
+    .form-group.hidden
+      input.form-control(type="text", name="CSVFrmPOSTNAME", id="CSVFrmPOSTVALUE")
+  h3
+    span= fn
+    span -
+    span= periodno 
+  .btn-group
+    a(href='#', class='btn btn-primary btn-sm')#exportbtn
+      i.glyphicon.glyphicon-download-alt
+      span  匯出Xls
+    a(href='#', class='btn btn-primary btn-sm')#prtbtn
+      i.glyphicon.glyphicon-print
+      span Print
+  div#tableContent
+    table(class="table table-bordered")#desc
+      tr
+        th ID
+        th SIID
+        th SPNO
+        th STUDREF
+        th DSEJREF
+        th PE
+        th SP_ITEM
+        th CLASS
+        th NAME
+        th RC
+        th RANK
+        th NOTE
+        th MARK
+      each book in books
+        tr
+          //-var stime=new Date(Date.parse(book.stime));
+          //-var ltime=stime.toLocaleString();
+          //-var gd=stime.getDay();
+          td= book.ID
+          td= book.SI_ID
+          td= book.SPNO
+          td= book.STUD_REF
+          td= book.DSEJ_REF
+          td= book.PERIOD_NO
+          td= book.SP_ITEM
+          td= book.CLASSNO
+          td= book.NAME
+          td= book.RC
+          td= book.SP_RANK
+          td= book.NOTE
+          td= book.SP_MRK
+          //td(class="nd") #{w0.toFixed(2)}
+          //canvas(width=`${w0}` , height=8, style='background-color: red;')
+  if !books.length
+    p No work log found.
+
+  
+  nav 
+    ul.pager
+      -var prePageToken = nextPageToken - 4000 > 0 ? nextPageToken - 4000 : 0
+      if prePageToken == 0
+        li
+          a(href=`?pageToken=${encodeURIComponent(prePageToken)}`) Prev      
+      if nextPageToken 
+        li
+          a(href=`?pageToken=${encodeURIComponent(nextPageToken)}`) Next
+
+  script(type="text/javascript").
+    $(document).ready(function(){
+      $('#prtbtn').click(function(){
+        var divid= document.getElementById('tableContent');
+        var popupWin = window.open('', '_blank', 'width=350,height=150,location=no,left=200px');
+        popupWin.document.open();
+        popupWin.document.write('<html><title>prt</title></head><body>');
+        popupWin.document.write('#{fn}');
+        popupWin.document.write(divid.innerHTML);
+        popupWin.print();
+        popupWin.document.close();
+      });
+      $('#exportbtn').click(function(){
+        var txt= document.getElementById('tableContent').innerHTML;
+        document.getElementById('CSVFrmPOSTVALUE').value = txt;
+        document.getElementById('CSVFrmPOST').submit();
+      });
+    });      
+

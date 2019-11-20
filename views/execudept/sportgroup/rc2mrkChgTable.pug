@@ -1,0 +1,83 @@
+extends ./base.pug
+block content
+  style.
+    th {font-size:14px;}
+    td {font-size:14px;}
+  script(src='/javascripts/cool/grid_export.js')
+  -var fn= "rc2mrkChgTable";
+  form(method="POST", enctype="multipart/form-data",action=`http://192.168.101.250/qm/CGI/ExpXls.php?charset=utf-8&filename=${fn}.xls`)#CSVFrmPOST
+    .form-group.hidden
+      input.form-control(type="text", name="CSVFrmPOSTNAME", id="CSVFrmPOSTVALUE")
+  h3= "校運會各項評分" 
+  .btn-group
+    a(href='#', class='btn btn-primary btn-sm')#exportbtn
+      i.glyphicon.glyphicon-download-alt
+      span  匯出Xls
+    a(href='#', class='btn btn-primary btn-sm')#prtbtn
+      i.glyphicon.glyphicon-print
+      span Print
+  div#tableContent      
+    table(class="table table-bordered")#desc
+      tr
+        th ID
+        th SIID
+        th MARK
+        th ITEM
+        th MA
+        th MB
+        th MC
+        th MD
+        th ME
+        th FA
+        th FB
+        th FC
+        th FD
+        th FE
+      each book in books
+        tr
+          each ele in book
+            td= ele
+ 
+  div#item_grid
+
+    
+  if !books.length
+    p No work log found.
+
+  
+  nav 
+    ul.pager
+      -var prePageToken = nextPageToken - 4000 > 0 ? nextPageToken - 4000 : 0
+      if prePageToken == 0
+        li
+          a(href=`?pageToken=${encodeURIComponent(prePageToken)}`) Prev      
+      if nextPageToken 
+        li
+          a(href=`?pageToken=${encodeURIComponent(nextPageToken)}`) Next
+
+  script(type="text/javascript").
+    let data = ["50M", "010", "60M", "020", "100M", "030", "200M", "040", "400M", "050", "800M", "060",
+        "1000M", "070", "1500M", "080", "3000M", "090", "5000M", "100", "60M欄", "110",
+        "80M欄", "120", "100M欄", "130", "110M欄", "140","4x50M", "150", "4x100M", "160",
+        "4X400M", "170","跳高", "180", "跳遠", "190", "三級跳遠", "200", "壘球", "210", "鉛球", "220" ];
+    let gdata=[    "女A", "21000",    "女B", "22000",    "女C", "23000",    "女D", "24000",    "女E", "25000",
+        "男A", "11000",    "男B", "12000",    "男C", "13000",    "男D", "14000",    "男E", "15000",]; 
+      
+    $(document).ready(function(){
+      $('#prtbtn').click(function(){
+        var divid= document.getElementById('tableContent');
+        var popupWin = window.open('', '_blank', 'width=350,height=150,location=no,left=200px');
+        popupWin.document.open();
+        popupWin.document.write('<html><title>prt</title></head><body>');
+        popupWin.document.write('#{fn}');
+        popupWin.document.write(divid.innerHTML);
+        popupWin.print();
+        popupWin.document.close();
+      });
+      $('#exportbtn').click(function(){
+        var txt= document.getElementById('tableContent').innerHTML;
+        document.getElementById('CSVFrmPOSTVALUE').value = txt;
+        document.getElementById('CSVFrmPOST').submit();
+      });
+    });      
+

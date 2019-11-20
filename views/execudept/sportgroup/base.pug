@@ -1,0 +1,44 @@
+doctype html
+html
+  head
+    title 行政-體育組
+    link(rel="icon" href="/favicon.ico")
+    meta(charset='utf-8')
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/main.css')
+    script(src='/javascripts/jquery.js')
+    script(src='/javascripts/bootstrap.js')
+  body
+    .navbar.navbar-default
+      .container
+        .navbar-header
+          .navbar-brand 行政-體育組
+        ul.nav.navbar-nav
+          li          
+            a(href="/") 
+              span(class="glyphicon") &#xe021
+          li
+            a(href="/SportGroup") 
+              span(class="glyphicon") 新一屇記錄
+          li
+            a(href="/SportGroup/GR") 
+              span(class="glyphicon") 大會記錄
+          li
+            a(href="/sportGroup/rc2mrkChgTable") 
+              span(class="glyphicon") 各項評分    
+
+          li
+            a(href="/SportGroup/rchistory") 
+              span(class="glyphicon") 資料表    
+        p.navbar-text.navbar-right
+          if profile
+            if profile.image
+              img.img-circle(src=profile.image, width=24)
+            span #{profile.displayName} &nbsp;
+              a(href='/logout') (logout)
+          else
+            a(href='/login') Login
+.container
+  
+  block content

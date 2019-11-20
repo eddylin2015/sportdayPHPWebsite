@@ -60,6 +60,7 @@ app.use('/api/blogs', require('./blogs/api'));
 app.use('/sortableTable', require('./sortableTable/crud'));
 app.use('/namelist', require('./namelist/crud'));
 app.use('/report_to_public', require('./report_to_public/crud'));
+app.use('/SportGroup', require('./sportgroup/crud'));
 // Redirect root to /books
 app.get('/', (req, res) => {
   res.render('index',{profile:req.user});   // res.redirect('/index');

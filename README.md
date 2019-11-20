@@ -1,3 +1,18 @@
+School_Sport_Game_Arrangement
+
+
+C:/Apache/MySQL Server 8.0
+C:/Apache/www
+C:/Apache/sportdayPHPWebsite
+cmd
+C:/Apache>run
+C:\code\SportDay\Sport_gae_xls\gaexls\bin\Debug\gaexls.exe
+C:\code\Gae_SportDay_GAEDATA\gae\bin\Debug\gae.exe
+C:\code\SportDay\SportDay\bin\Debug\SportDay.exe
+%MY_DOCUMENT%/.credentials
+mbcdevit
+mbc11thsp
+
 # Getting Started with Node.js on Google Cloud Platform
 
 This directory contains the code for deploying a basic Node.js app to Google Cloud Platform. Follow the tutorial to use this sample.
