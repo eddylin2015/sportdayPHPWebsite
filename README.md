@@ -50,7 +50,7 @@ RCFJH
 - RC5	名次,小號,號碼,姓名,班別,成績,備註
 
 
-#config.js
+# config.js
 
 ```
 const nconf = (module.exports = require('nconf'));
