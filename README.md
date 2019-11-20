@@ -1,8 +1,7 @@
 # School_Sport_Game_Arrangement
 # 校運會編排系統
 
-
-
+# 運動項目表
 
 ```
 		男A	男B	男C	男D	男E	女A	女B	女C	女D	女E
@@ -51,6 +50,39 @@ RCFJH
 - RC5	名次,小號,號碼,姓名,班別,成績,備註
 
 
+#config.js
+
+```
+const nconf = (module.exports = require('nconf'));
+const path = require('path');
+nconf
+  // 1. Command-line arguments
+  .argv()
+  // 2. Environment variables
+  .env([
+    'NODE_ENV',
+    'PORT',
+  ])
+  // 3. Config file
+  .file({ file: path.join(__dirname, 'config.json') })
+  // 4. Defaults
+  .defaults({
+    REDISHOST: "",
+    MYSQL_HOST: "",
+    MYSQL_DB: "",
+    MYSQL_USER: "",
+    MYSQL_PASSWORD: "",
+    PORT: 80,
+    // Set this a secret string of your choosing
+    SECRET: '.......',
+    FOXITREADER:'...',
+    WKHTML:'...',
+    SP_REPORT_TO_PUBLIC:"...",
+    SP_DB:'',
+  });
+```
+
+# 其它Console
 - C:/Apache/MySQL Server 8.0
 - C:/Apache/www
 - C:/Apache/sportdayPHPWebsite
