@@ -3,7 +3,10 @@
 
 # 運動項目表
 
-男A100M 1101X  X: 0 初 1 複 2 決
+輸入田及競賽成績, 輸出名單、成績、進階成績及進階名單。完整平板操作, 包括輸入、輸出、打印名單及成績表。(wkhtmltoPDF 制作PDF; 利用foxitreader /p path; 后台打印)
+
+- ITEM: 男A100M   
+- SI_ID:1101X  (X: 0 初 1 複 2 決)
 
 ```
 	11男A	12男B	13男C	14男D	15男E	21女A	22女B	23女C	24女D	25女E
@@ -29,9 +32,12 @@
 20	三級跳遠	三級跳遠	三級跳遠								
 21	壘球				壘球	壘球				壘球	壘球
 22	鉛球	鉛球	鉛球	鉛球			鉛球	鉛球	鉛球	
+```
 
 # RCX - SI_ID 表
 
+
+```
 RC5 si_id,rcx,rank,s_number,number,name,classno,rc,note
 RC5 名次,小號,號碼,姓名,班別,成績,備註 //800以上 決 si_id( 6,7,8,9,10)
 RC7 si_id,rcx,rank,group_id,s_number,number,name,classno,rc,grk,note
