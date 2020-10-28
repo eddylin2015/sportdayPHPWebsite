@@ -5,7 +5,7 @@ block content
     td {font-size:14px;}
   script(src='/javascripts/cool/grid_export.js')
   -var fn= "sport_gr";
-  form(method="POST", enctype="multipart/form-data",action=`http://192.168.101.250/qm/CGI/ExpXls.php?charset=utf-8&filename=${fn}.xls`)#CSVFrmPOST
+  form(method="POST", enctype="multipart/form-data",action=`/api/CGI/ExpXls.php?charset=utf-8&filename=${fn}.xls`)#CSVFrmPOST
     .form-group.hidden
       input.form-control(type="text", name="CSVFrmPOSTNAME", id="CSVFrmPOSTVALUE")
   h3= fn 
