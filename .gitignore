@@ -11,3 +11,4 @@ tools/
 *Thumbs.db
 *.7z
 files/
+childproc/*

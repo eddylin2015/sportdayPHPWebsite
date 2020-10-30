@@ -94,8 +94,13 @@ block content
             else           
               input( type="button", onclick=`f('${book.si_id}','${book.lock_item}')`,value="EDIT")
           td= pDate(book.lock_time)
-          td= book.ds_n
-
+          //td= book.ds_n
+          td
+            a(href=`push2/${book.si_id}?for=namelist`, class='btn btn-primary btn-sm') PUSH Name
+          td
+            a(href=`push2/${book.si_id}?for=prom`, class='btn btn-primary btn-sm') PUSH Prom
+          td
+            a(href=`push2/${book.si_id}?for=result`, class='btn btn-primary btn-sm') PUSH Result
       each book in books[1]
         -fflag= (profile.id < 10 ) && !(book.lock_item ==1)
         tr
@@ -119,7 +124,14 @@ block content
             else 
               input( type="button", onclick=`f0('${book.fi_id}','${book.rcx}','${book.lock_item}')`,value="EDIT")
           td= pDate(book.lock_time)
-          td= book.ds_n      
+          //td= book.ds_n      
+          td
+            a(href=`push2/${book.fi_id}?for=namelist`, class='btn btn-primary btn-sm') PUSH Name
+          td
+            a(href=`push2/${book.fi_id}?for=prom`, class='btn btn-primary btn-sm') PUSH Prom
+          td
+            a(href=`push2/${book.fi_id}?for=result`, class='btn btn-primary btn-sm') PUSH Result
+
   script.
   
     function tmpPDF(url,fn) {
