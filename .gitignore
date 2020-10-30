@@ -11,4 +11,4 @@ tools/
 *Thumbs.db
 *.7z
 files/
-childproc/*
+childproc/postrc.js
