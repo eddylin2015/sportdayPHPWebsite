@@ -43,9 +43,19 @@ async function get_ctx_asyncCall(slink,dlink,sid,report_type) {
     console.log(temp_)
 }
 async function push_asyncCall(si_id,report_type) {
+    let ite_id=si_id%1000/10
+    let rc="rc"
+    switch(ite_id){
+        case 18: rc='RCFJH';break;
+        case 19:
+        case 20:
+        case 21:
+        case 22: rc='RCFIE';break;
+    }
     let sid = await WG.Auth_Login(mail_cfg.Auth_Login_Host, mail_cfg.Auth_Login_Path_, mail_cfg.user_pwd, mail_cfg.Auth_Login_port);
     let dlink=`/internal/sportday/api/updaterc/${si_id}?for=${report_type}`;
-    let slink=`/sortableTable/rc/${report_type}/${si_id}?bar=1`;
+    
+    let slink=`/sortableTable/${rc}/${report_type}/${si_id}?bar=1`;
     get_ctx_asyncCall(slink,dlink,sid,report_type)
 }
 // '/internal/sportday/api/updaterc/:siid?for=namelist | prom | result ';

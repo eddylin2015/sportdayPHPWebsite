@@ -71,20 +71,20 @@ block content
             a(href=`/sortableTable/rc/namelist/${book.si_id}?bar=1`)
               input( type='button',value='名單') 
             if sflag
-              input(type="button",value="P3",onclick=`tmpPDF('/rc/namelist/${book.si_id}','${book.s_item}名單');`)                   
+              input(type="button",value="P3",onclick=`tmpPDF('/rc/namelist/${book.si_id}','${book.s_item}名單',3);`)                   
           if pflag
             td
               a(href=`/sortableTable/rc/prom/${book.si_id}?bar=1`)
                 input( type='button',value='進級賽果')     
               span= book.p_cnt  
               if sflag  
-                input(type="button",value="P2",onclick=`tmpPDF('/rc/prom/${book.si_id}','${book.s_item}賽果');`)                   
+                input(type="button",value="P2",onclick=`tmpPDF('/rc/prom/${book.si_id}','${book.s_item}賽果',2);`)                   
           else
             td
               a(href=`/sortableTable/rc/result/${book.si_id}?bar=1`)
                 input( type='button',value='賽果')  
               if sflag
-                input(type="button",value="P2",onclick=`tmpPDF('/rc/result/${book.si_id}','${book.s_item}賽果');`)                   
+                input(type="button",value="P2",onclick=`tmpPDF('/rc/result/${book.si_id}','${book.s_item}賽果',2);`)                   
 
 
           td= book.lock_item
@@ -96,11 +96,11 @@ block content
           td= pDate(book.lock_time)
           //td= book.ds_n
           td
-            a(href=`push2/${book.si_id}?for=namelist`, class='btn btn-primary btn-sm') PUSH Name
+            a(onclick=`Push2Web('push2/${book.si_id}?for=namelist')`, class='btn btn-primary btn-sm') PUSH Name
           td
-            a(href=`push2/${book.si_id}?for=prom`, class='btn btn-primary btn-sm') PUSH Prom
+            a(onclick=`Push2Web('push2/${book.si_id}?for=prom')`, class='btn btn-primary btn-sm') PUSH Prom
           td
-            a(href=`push2/${book.si_id}?for=result`, class='btn btn-primary btn-sm') PUSH Result
+            a(onclick=`Push2Web('push2/${book.si_id}?for=result')`, class='btn btn-primary btn-sm') PUSH Result
       each book in books[1]
         -fflag= (profile.id < 10 ) && !(book.lock_item ==1)
         tr
@@ -109,12 +109,13 @@ block content
           td
             a(href=`/sortableTable/${book.rcx}/namelist/${book.fi_id}`)
               input( type='button',value='名單')
+            input(type="button",value="P0",onclick=`tmpPDF('/${book.rcx}/namelist/${book.fi_id}','${book.f_item}名單',0);`)                   
           td
             a(href=`/sortableTable/${book.rcx}/result/${book.fi_id}?bar=1`)
               input( type='button',value='賽果')
               
             if fflag
-              input(type="button",value="P2",onclick=`tmpPDF('/${book.rcx}/result/${book.fi_id}','${book.f_item}賽果');`)                   
+              input(type="button",value="P2",onclick=`tmpPDF('/${book.rcx}/result/${book.fi_id}','${book.f_item}賽果',2);`)                   
 
                
           td=  book.lock_item
@@ -126,26 +127,50 @@ block content
           td= pDate(book.lock_time)
           //td= book.ds_n      
           td
-            a(href=`push2/${book.fi_id}?for=namelist`, class='btn btn-primary btn-sm') PUSH Name
+            a(onclick=`Push2Web('push2/${book.fi_id}?for=namelist');`, class='btn btn-primary btn-sm') PUSH Name
           td
-            a(href=`push2/${book.fi_id}?for=prom`, class='btn btn-primary btn-sm') PUSH Prom
+            //a(onclick=`Push2Web('push2/${book.fi_id}?for=prom');`, class='btn btn-primary btn-sm') PUSH Prom
           td
-            a(href=`push2/${book.fi_id}?for=result`, class='btn btn-primary btn-sm') PUSH Result
+            a(onclick=`Push2Web('push2/${book.fi_id}?for=result');`, class='btn btn-primary btn-sm') PUSH Result
 
   script.
-  
-    function tmpPDF(url,fn) {
+    ///report_to_public/printPDFfile/files/?
+    function printPDF(x,y){
+       for(var i=0;i<y;i++)
+       {
+         var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function () {
+         if (this.readyState == 4 && this.status == 200) {
+           alert(`${this.responseText}`);
+         }
+       };
+       xhttp.open("GET", x, true);
+       xhttp.send();
+       } 
+    }  
+    function tmpPDF(url,fn,print_times) {
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
           alert(this.responseText);
+          let pdffilename=this.responseText.split("!")[1];
+          //printPDF("/report_to_public/printPDFfile/files/"+encodeURI(pdffilename),print_times)
         }
       };
       var genPDFURL= "/report_to_public/genPDF?url=" + encodeURI(url) + "&fn=" + fn;
       xhttp.open( "GET",genPDFURL , true);
       xhttp.send();
     }
-
+    function Push2Web(url){
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          alert(this.responseText);
+        }
+      };
+      xhttp.open( "GET",url , true);
+      xhttp.send();
+    }
     $(document).ready(function(){
       $("#myInput").on("keyup", function() {
         var value = $(this).val().toLowerCase();
@@ -156,17 +181,3 @@ block content
     });
 
 
-    ///*
-    //function printPDF(x,y){
-    //   for(var i=0;i<y;i++)
-    //   {
-    //     var xhttp = new XMLHttpRequest();
-    //     xhttp.onreadystatechange = function () {
-    //     if (this.readyState == 4 && this.status == 200) {
-    //       alert(`${this.responseText}`);
-    //     }
-    //   };
-    //   xhttp.open("GET", x, true);
-    //   xhttp.send();
-    //   } 
-    //}*/
