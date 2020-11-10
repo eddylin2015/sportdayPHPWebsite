@@ -8,61 +8,60 @@
 - ITEM: 男A100M   
 - SI_ID:1101X  (X: 0 初 1 複 2 決)
 
-```
-	11男A	12男B	13男C	14男D	15男E	21女A	22女B	23女C	24女D	25女E
-01	50M					50M					50M
-02	60M				60M					60M	
-03	100M	100M	100M	100M			100M	100M	100M		
-04	200M	200M	200M	200M			200M	200M	200M		
-05	400M	400M	400M				400M	400M			
-06	800M	800M	800M				800M	800M			
-07	1000M				1000M					1000M	
-08	1500M	1500M	1500M	1500M			1500M	1500M	1500M		
-09	3000M		3000M				3000M	3000M			
-10	5000M	5000M									
-11	60M欄								60M欄		
-12	80M欄			80M欄			80M欄	80M欄			
-13	100M欄		100M欄				100M欄				
-14	110M欄	110M欄	110M欄								
-15	4x50M				4x50M	4x50M				4x50M	4x50M
-16	4x100M	4x100M	4x100M	4x100M			4x100M	4x100M	4x100M		
-17	4x400M	4x400M	4x400M				4x400M	4x400M			
-18	跳高	跳高	跳高	跳高	跳高	跳高	跳高	跳高	跳高	跳高	跳高
-19	跳遠	跳遠	跳遠	跳遠	跳遠	跳遠	跳遠	跳遠	跳遠	跳遠	跳遠
-20	三級跳遠	三級跳遠	三級跳遠								
-21	壘球				壘球	壘球				壘球	壘球
-22	鉛球	鉛球	鉛球	鉛球			鉛球	鉛球	鉛球	
-```
+|    |    |11男A|12男B| 13男C|14男D|15男E|21女A|22女B|23女C| 24女D|25女E|
+|:--:|:--:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|01|50M|||||50M|||||50M
+|02|60M||||60M|||||60M|
+|03|100M|100M|100M|100M|||100M|100M|100M||
+|04|200M|200M|200M|200M|||200M|200M|200M||
+|05|400M|400M|400M||||400M|400M|||
+|06|800M|800M|800M||||800M|800M|||
+|07|1000M||||1000M|||||1000M|
+|08|1500M|1500M|1500M|1500M|||1500M|1500M|1500M||
+|09|3000M||3000M||||3000M|3000M|||
+|10|5000M|5000M|||||||||
+|11|60M欄||||||||60M欄||
+|12|80M欄|||80M欄|||80M欄|80M欄|||
+|13|100M欄||100M欄||||100M欄||||
+|14|110M欄|110M欄|110M欄||||||||
+|15|4x50M||||4x50M|4x50M||||4x50M|4x50M
+|16|4x100M|4x100M|4x100M|4x100M|||4x100M|4x100M|4x100M||
+|17|4x400M|4x400M|4x400M||||4x400M|4x400M|||
+|18|跳高|跳高|跳高|跳高|跳高|跳高|跳高|跳高|跳高|跳高|跳高
+|19|跳遠|跳遠|跳遠|跳遠|跳遠|跳遠|跳遠|跳遠|跳遠|跳遠|跳遠
+|20|三級跳遠|三級跳遠|三級跳遠||||||||
+|21|壘球||||壘球|壘球||||壘球|壘球
+|22|鉛球|鉛球|鉛球|鉛球|||鉛球|鉛球|鉛球|
 
 # RCX - SI_ID 表
 
-
-```
-RC5 si_id,rcx,rank,s_number,number,name,classno,rc,note
-RC5 名次,小號,號碼,姓名,班別,成績,備註 //800以上 決 si_id( 6,7,8,9,10)
-RC7 si_id,rcx,rank,group_id,s_number,number,name,classno,rc,grk,note
-RC7 名次,組次,小號,號碼,姓名,班別,成績,GRK,備註 //800以上 分組決
-RC1 si_id,rcx,rank,group_id,road,number,classno,name,rc,grk,note
-RC1 名次,組次,道次,號碼,姓名,班別,成績,GRK,備註 //短跑 初,複 si_id( 1,2,3,4,5 , 11,12,13,14)
-RC2 si_id,rcx,rank,road,number,classno,name,rc,note
-RC2 名次,道次,號碼,姓名,班級,成績,備註 //短跑 決
-RC3 si_id,rcx,rank,group_id,road,name,number,rc,classno,grk,note
-RC3 名次,組次,道次,隊名,,成績,,GRK,備註 //4x初, 複 si_id( 15, 16, 17)
-RC4 si_id,rcx,rank,road,name,number,rc,classno,note
-RC4 名次,道次,隊名,,成績,,備註 //4x決賽
-RCFIE
-RCFJH
-```
+|RCX|  cfj |si_id|Title|
+|:-:|:---: |:---:|:---:|
+|RC5|      |           |si_id,rcx,rank,s_number,number,name,classno,rc,note
+|RC5|800以上 決|6,7,8,9,10 |名次,小號,號碼,姓名,班別,成績,備註  
+|RC7|      |           |si_id,rcx,rank,group_id,s_number,number,name,classno,rc,grk,note
+|RC7|800以上 分組決|           |名次,組次,小號,號碼,姓名,班別,成績,GRK,備註 
+|RC1|      |           |si_id,rcx,rank,group_id,road,number,classno,name,rc,grk,note
+|RC1|短跑 初,複 |1,2,3,4,5,11,12,13,14 |名次,組次,道次,號碼,姓名,班別,成績,GRK,備註 
+|RC2|      |           |si_id,rcx,rank,road,number,classno,name,rc,note
+|RC2|短跑 決|           |名次,道次,號碼,姓名,班級,成績,備註
+|RC3|      |           |si_id,rcx,rank,group_id,road,name,number,rc,classno,grk,note
+|RC3|4x初, 複 |15, 16, 17|名次,組次,道次,隊名,,成績,,GRK,備註 
+|RC4|      |           |si_id,rcx,rank,road,name,number,rc,classno,note
+|RC4|4x決賽|          |名次,道次,隊名,,成績,,備註 
+|RCFIE
+|RCFJH
 
 # 標題
+|rcx|title |
+|:-:|:---: |
+| RC1|	名次,組次,道次,號碼,姓名,班別,成績,GRK,備註
+| RC2|	名次,道次,號碼,姓名,班級,成績,備註
+| RC3|	名次,組次,道次,隊名,,成績,,GRK,備註
+| RC4|	名次,道次,號碼,姓名,班級,成績,備註
+| RC5|	名次,小號,號碼,姓名,班別,成績,備註
 
-- RC1	名次,組次,道次,號碼,姓名,班別,成績,GRK,備註
-- RC2	名次,道次,號碼,姓名,班級,成績,備註
-- RC3	名次,組次,道次,隊名,,成績,,GRK,備註
-- RC4	名次,道次,號碼,姓名,班級,成績,備註
-- RC5	名次,小號,號碼,姓名,班別,成績,備註
-
-# SPNO 號碼編排
+# SPNO 號碼布,編碼
 
 - 1 2 3 4 5 6
 - SG1 SG2 SG3 SC1 SC2 SC3
@@ -73,9 +72,34 @@ RCFJH
 - 01
 - SG1A01 1101
 
-# config.js
-
+# 竞賽進級按RC排場次及道號 porm list, 田賽按最好成績最后出場.
+```js
+function porm_road_base_rc(pre_group_cnt) {
+    let porm_road_s = null;
+    if (pre_group_cnt == 7) {
+        porm_road_s = [
+            ",4;,5;,3;,6;,2;,7;,8",
+            "二,4;一,4;一,5;二,5;二,3;一,3;一,6;二,6;二,2;一,2;二,7;一,7;一,8;二,8"
+        ];
+    } else if (pre_group_cnt == 6) {
+        porm_road_s = [
+            ",4;,5;,3;,6;,2;,7;,8",
+            "二,4;一,4;一,5;二,5;二,3;一,3;一,6;二,6;二,2;一,2;二,7;一,7;一,8;二,8"];
+    }
+    else {  //each group for 8 roads
+        porm_road_s = [
+            ",4;,5;,3;,6;,2;,1;,7;,8",
+            "二,4;一,4;一,5;二,5;二,3;一,3;一,6;二,6;二,2;一,2;一,1;二,1;二,7;一,7;一,8;二,8",
+            "三,4;二,4;一,4;一,5;二,5;三,5;三,3;二,3;一,3;一,6;二,6;三,6;三,2;二,2;一,2;一,1;二,1;三,1;一,7;二,7;三,7;一,8;二,8;三,8",
+            "四,4;三,4;二,4;一,4;一,5;二,5;三,5;四,5;四,3;三,3;二,3;一,3;一,6;二,6;三,6;四,6;四,2;三,2;二,2;一,2;一,1;二,1;三,1;四,1;四,7;三,7;二,7;一,7;一,8;二,8;三,8;四,8"
+        ];
+    }
+    return porm_road_s;
+}
 ```
+### config.js
+```js 
+'use strict';
 const nconf = (module.exports = require('nconf'));
 const path = require('path');
 nconf
@@ -85,24 +109,30 @@ nconf
   .env([
     'NODE_ENV',
     'PORT',
+    'SECRET',
   ])
   // 3. Config file
   .file({ file: path.join(__dirname, 'config.json') })
-  // 4. Defaults
   .defaults({
-    REDISHOST: "",
-    MYSQL_HOST: "",
+    REDISHOST: "127.0.0.1",
+    MYSQL_HOST: "127.0.0.1",
     MYSQL_DB: "",
     MYSQL_USER: "",
     MYSQL_PASSWORD: "",
-    PORT: 80,
-    // Set this a secret string of your choosing
-    SECRET: '.......',
-    FOXITREADER:'...',
-    WKHTML:'...',
-    SP_REPORT_TO_PUBLIC:"...",
-    SP_DB:'',
+    PORT: 8088,
+    SECRET: 'cat',
+    FOXITREADER:'',
+    WKHTML:'',
+    SP_REPORT_TO_PUBLIC:"",
   });
+//Check for required settings
+function checkConfig(setting) {
+  if (!nconf.get(setting)) {
+    throw new Error(
+      `You must set ${setting} as an environment variable or in config.json!`
+    );
+  }
+}
 ```
 # using sportgroup/sport_rcmrk/config.js
 
@@ -139,45 +169,3 @@ exports.localmysql= mysql.createConnection({
 # Getting Started with Node.js on Google Cloud Platform
 * [Getting started with Node.js](https://cloud.google.com/nodejs/getting-started)
 
-### config.js
-```js 
-'use strict';
-// Hierarchical node.js configuration with command-line arguments, environment
-// variables, and files.
-const nconf = (module.exports = require('nconf'));
-const path = require('path');
-nconf
-  // 1. Command-line arguments
-  .argv()
-  // 2. Environment variables
-  .env([
-    'NODE_ENV',
-    'PORT',
-    'SECRET',
-  ])
-  // 3. Config file
-  .file({ file: path.join(__dirname, 'config.json') })
-  // 4. Defaults
-  .defaults({
-    // Typically you will create a bucket with the same name as your project ID.
-    REDISHOST: "127.0.0.1",
-    MYSQL_HOST: "127.0.0.1",
-    MYSQL_DB: "db",
-    MYSQL_USER: "user",
-    MYSQL_PASSWORD: "password",
-    PORT: 80,
-    // Set this a secret string of your choosing
-    SECRET: 'catcat',
-    FOXITREADER:'FoxitReader.exe',
-    WKHTML:'wkhtmltopdf.exe',
-    SP_REPORT_TO_PUBLIC:"report_to_public/files/",
-  });
-//Check for required settings
-function checkConfig(setting) {
-  if (!nconf.get(setting)) {
-    throw new Error(
-      `You must set ${setting} as an environment variable or in config.json!`
-    );
-  }
-}
-```
