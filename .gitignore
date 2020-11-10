@@ -12,3 +12,4 @@ tools/
 *.7z
 files/
 childproc/postrc.js
+.ipynb_checkpoints
