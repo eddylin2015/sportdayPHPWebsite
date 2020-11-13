@@ -124,7 +124,7 @@ if (cluster.isMaster) {
   //start Master
   console.log(`Master ${process.pid} is running`);
   // Fork workers.
-  for (let i = 0; i < numCPUs -1; i++) {
+  for (let i = 0; i < numCPUs ; i++) {
     cluster.fork();
   }
   cluster.on('exit', (worker, code, signal) => {

@@ -197,6 +197,14 @@ router.get('/tmpToPub/files/:book',oauth2.required,  (req, res, next) => {
     res.end("ERRor tmp file to pub");
   }
   });
+const stb=require("../childproc/timetable")
+router.get('/timetable',oauth2.required,  (req, res, next) => {
+    if(req.user.id>10) {res.end("no right!");return;}
+    res.render('namelist/timetable.pug', {
+      books: stb.showtimetable(),
+      //nextPageToken: cursor,
+    });
+});  
 /**
  * Errors on "/books/*" routes.
  */

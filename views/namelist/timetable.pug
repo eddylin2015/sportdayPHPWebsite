@@ -1,0 +1,9 @@
+extends ./base.pug
+
+block content
+  table.table
+    each row in books
+      tr
+        each col in row
+          td !{col}
+  

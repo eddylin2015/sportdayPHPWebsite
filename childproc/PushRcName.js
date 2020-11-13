@@ -58,6 +58,39 @@ async function push_asyncCall(si_id,report_type) {
     let slink=`/sortableTable/${rc}/${report_type}/${si_id}?bar=1`;
     get_ctx_asyncCall(slink,dlink,sid,report_type)
 }
+async function get_ctx_Call(slink,dlink,sid,report_type) {
+    let datajson={};
+    //console.log(slink)
+    var temp_ = await WG.HttpGet("127.0.0.1", slink, sid, 80);
+    //console.log(temp_);
+    if(report_type=="namelist"){
+        datajson.name_ctx=temp_;
+    } else if (report_type=="prom"){
+        datajson.rc_ctx=temp_;
+        datajson.lock_item=1;
+    } else if (report_type=="result"){
+        datajson.rc_ctx=temp_;
+        datajson.lock_item=1;
+    }
+    //console.log(datajson);
+    temp_ =await WG.HttpPost(mail_cfg.Auth_Login_Host, dlink,querystring.stringify(datajson), sid, 80);
+    console.log(temp_)
+}
+async function push_simple(si_id,report_type) {
+    let ite_id=si_id%1000/10
+    let rc="rc"
+    switch(ite_id){
+        case 18: rc='RCFJH';break;
+        case 19:
+        case 20:
+        case 21:
+        case 22: rc='RCFIE';break;
+    }
+    let sid ="";
+    let dlink=`/internal/sportday/api/updaterc/${si_id}?for=${report_type}`;
+    let slink=`/sortableTable/${rc}/${report_type}/${si_id}?bar=1`;
+    await get_ctx_Call(slink,dlink,sid,report_type)
+}
 // '/internal/sportday/api/updaterc/:siid?for=namelist | prom | result ';
 // /sortableTable/rc/namelist/11032?bar=1
 // /sortableTable/rc/prom/11032?bar=1
@@ -65,4 +98,5 @@ async function push_asyncCall(si_id,report_type) {
 
 module.exports={
     push_asyncCall:push_asyncCall,
+    push_simple:push_simple,
 }
