@@ -2,6 +2,7 @@
 var mysql = require("mysql");
 const mrkd = require("./rc2mrkdata_cfg");
 var cfg = require("./config");
+var period_no=cfg.period_no;
 var con = cfg.mrkmysql;//infomysql;
 function fmtRC(rc) {
     if (rc == null) return "";
@@ -28,8 +29,8 @@ function grp_mrkd() {
     }
     console.log(arr)
 }
-
-let itemsql = "SELECT id,si_id,spno,period_no,sp_item,item,rc,sp_rank,note FROM sport_history where period_no in(14) and r4xg='.'   ;";
+let r4xg='...'
+let itemsql = `SELECT id,si_id,spno,period_no,sp_item,item,rc,sp_rank,note FROM sport_history where period_no in(${period_no}) and r4xg='${r4xg}'   ;`;
 con.connect(function (err) {
     if (err) throw err;
     con.query(itemsql, function (err, res, fields) {
@@ -44,20 +45,19 @@ con.connect(function (err) {
             let gid = Math.floor(si_id / 1000);
             let gidindex = gid > 20 ? gid - 12 : gid - 7;
             let rc = fmtRC(ri.rc);
-            console.log("# ", rc);
+            //console.log("# ", rc);
             let mrk = 0;
             if (sid >= 18 && sid <= 22) {
                 mrk = mrkd.fc2m(sid, gidindex, rc);
                 //console.log("update sport_history set si_id=", si_id, ", sp_mrk=", mrk, " where period_no=14 and r4xg='.' and id=", ri.id, " ;");
-                console.log("update sport_history set  sp_mrk=", mrk, " where period_no=14 and r4xg='.' and id=", ri.id, " ;");
+                console.log("update sport_history set  sp_mrk=", mrk, ` where period_no=${period_no} and r4xg='${r4xg}' and id=`, ri.id, " ;");
             } else {
                 rc.replace(/[.]/g, "");
                 mrk = mrkd.rc2m(sid, gidindex, rc);
                 //console.log("update sport_history set si_id=", si_id, ",sp_mrk=", mrk, " where period_no=14 and  r4xg='.' and id=", ri.id, " ;");
-                console.log("update sport_history set sp_mrk=", mrk, " where period_no=14 and  r4xg='.' and id=", ri.id, " ;");
+                console.log("update sport_history set sp_mrk=", mrk, ` where period_no=${period_no} and  r4xg='${r4xg}' and id=`, ri.id, " ;");
             }
         }
         con.end();//pool release();
     });
 });
-

@@ -54,10 +54,10 @@ const rcx_id = [
 ]
 const mysql = require('mysql');
 const options = {
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'qwertyui',
-    database: 'sportday2020',
+    host: config.get('MYSQL_HOST'),
+    user: config.get('MYSQL_USER'),
+    password: config.get('MYSQL_PASSWORD'),
+    database: config.get('MYSQL_DB'),
     multipleStatements: true
 };
 var connection = mysql.createConnection(options);

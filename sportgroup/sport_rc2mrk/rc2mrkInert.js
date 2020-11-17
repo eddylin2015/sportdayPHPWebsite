@@ -2,7 +2,7 @@ var mysql = require("mysql");
 const mrkd = require("./rc2mrkdata_cfg");
 var cfg = require("./config");
 var con =cfg.localmysql;
-const period_no = 14;
+const period_no = cfg.period_no;
 const r4xg='..';
 let cnt = 0;
 let item = "SELECT substring(si_id,-3),substring(item,3) FROM tblgr group by substring(si_id,-3),substring(item,3) ;";
@@ -52,7 +52,7 @@ const rl = readline.createInterface({
 
 rl.question('# Press any key for Exit? ', (answer) => {
   // TODO: Log the answer in a database
-  console.log(`# Thank you : ${answer}`);
+  console.log(`# disconnection : ${answer}`);
   con.end();
   rl.close();
 });

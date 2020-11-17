@@ -87,7 +87,7 @@ async function push_simple(si_id,report_type) {
         case 22: rc='RCFIE';break;
     }
     let sid ="";
-    let dlink=`/internal/sportday/api/updaterc/${si_id}?for=${report_type}`;
+    let dlink=`/internal/sportday/api/updaterc/${si_id}?for=${report_type}?token=${token}`;
     let slink=`/sortableTable/${rc}/${report_type}/${si_id}?bar=1`;
     await get_ctx_Call(slink,dlink,sid,report_type)
 }

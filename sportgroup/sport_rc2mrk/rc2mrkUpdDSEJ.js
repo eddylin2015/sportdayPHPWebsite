@@ -1,7 +1,7 @@
 //rc2mrkUref.js
 var mysql = require("mysql");
 var cfg = require("./config");
-var con = cfg.infomysql;
+var con = cfg.studinfomysql;
 data = [
     /*
     5	,"eschool1011",
@@ -13,9 +13,10 @@ data = [
     11	,"eschool1617",
     12	,"eschool1718"
     13, "eschool1819"*/
-    14, "eschool"
+    14, "eschool1920"
+    //,    15, "eschool"
 ];
-function get_spno(classno, seat) {
+function GenSpnoWithCno(classno, seat) {
     let fix0 = 0;
     ABCDE = classno.substring(classno.length - 1, classno.length)
     if (classno.startsWith("SG1")) fix0 = 1000;
@@ -45,9 +46,9 @@ con.connect(function (err) {
             if (err) throw err;
             for (let i = 0; i < res.length; i++) {
                 let ri = res[i];
-                let spno = get_spno(ri.curr_class, ri.curr_seat);
+                let spno = GenSpnoWithCno(ri.curr_class, ri.curr_seat);
                 console.log("# ", ri.curr_class, ri.curr_seat, spno);
-                console.log("update sport_history set dsej_ref=", "'" + ri.dsej_ref + "',stud_ref='" + ri.stud_ref + "' where spno=", spno, " and period_no=", peroid_no, " and r4xg='.';");
+                console.log(`update sport_history set dsej_ref='${ri.dsej_ref}',stud_ref='${ri.stud_ref}' where spno=${spno} and period_no=${peroid_no} and r4xg='.';`);
             }
         });
     }

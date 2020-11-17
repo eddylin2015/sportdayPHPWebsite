@@ -1,6 +1,7 @@
 const fs = require("fs");
 const config = require('../config');
 const dir = config.get('SP_REPORT_TO_PUBLIC');
+const token = config.get('API_SP_TOKEN');
 let files = fs.readdirSync(dir);
 let JSONdata = [];
 let fix="pdf";
@@ -43,7 +44,7 @@ for(let i=0;i<JSONdata.length;i++){
         let rtype="namelist";
         if(r.fn.indexOf("初")>0 && r.fn.indexOf("賽果")>0) {rtype="prom";}
         else if(r.fn.indexOf("賽果")>0){rtype="result";}
-        push2.push_simple(Number(obj[0]),rtype)
+        push2.push_simple(Number(obj[0]),rtype,token)
         await new Promise(r => setTimeout(r, 1000));
     }
 }
