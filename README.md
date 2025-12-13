@@ -1,24 +1,25 @@
-# School_Sport_Game_Arrangement
-# 校運會編排系統
+# 校運會編排 Sports Day Scheduling & Coordination
+
 ![主介面](https://raw.githubusercontent.com/eddylin2015/sportdayPHPWebsite/refs/heads/master/public/SPDFrontPage.png)
-# 運動項目表
 
 ## 報名
 
-## 編排
-輸入田及競賽成績, 輸出名單、成績、進階成績及進階名單。
-完整平板操作, 包括輸入、輸出、打印名單及成績表。
-(wkhtmltoPDF 制作PDF; 利用foxitreader /p path; 后台打印)
+中學活動中心報名
+
+## 編排工作
+
+- 輸入田及競賽成績,
+- 輸出名單、成績、進階成績及進階名單。
+- 輸入端iPad操作, 包括輸入、輸出、打印名單及成績表。
+- iPad列印指令,后台直接打印 (wkhtmltoPDF 制作PDF; 利用foxitreader /p path; 后台打印)
 
 ## 公布成績
 
-## 慱主
+## 運動項目編碼定義
 
-# 結構定義
-## 關鍵項目
-### 編碼SI_ID
+### 項目編碼SI_ID
+
 例如: ITEM: 男A100M (初 複 決); 編號 SI_ID: 11 03 X  (X: 0 初 1 複 2 決) 參考下圖
-
 
 | si | item|11男A|12男B| 13男C|14男D|15男E|21女A|22女B|23女C| 24女D|25女E|
 |:--:|:--:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -45,7 +46,7 @@
 |21|壘球||||壘球|壘球||||壘球|壘球
 |22|鉛球|鉛球|鉛球|鉛球|||鉛球|鉛球|鉛球|
 
-# 參賽者號碼布,SPNO 編碼
+### 參賽者號碼布,SPNO 編碼
 |內容|編碼 |
 |:-:|:---: |
 |級別 |1 2 3 4 5 6 9 8 7 
@@ -55,9 +56,9 @@
 |學號 |01
 |例子 |SG1A01 1101
 
-# si_id , spno 表示KEY
+### si_id , spno 表示KEY
 
-# RCX - SI_ID 表
+### RCX - SI_ID 表, 報表欄位標題
 
 |RCX|  cfj |si_id|Title|
 |:-:|:---: |:---:|:---:|
@@ -76,7 +77,7 @@
 |RCFIE
 |RCFJH
 
-# 標題
+### 報表欄位標題
 |rcx|title |
 |:-:|:---: |
 | RC1|	名次,組次,道次,號碼,姓名,班別,成績,GRK,備註
@@ -87,7 +88,9 @@
 
 
 
-# 竞賽進級按成績排場次及道號, 田賽按最好成績最后出場.
+## 算法
+
+### 竞賽進級按成績排場次及道號, 田賽按最好成績最后出場.
 ```js
 function porm_road_base_rc(pre_group_cnt) {
     let porm_road_s = null;
@@ -195,7 +198,7 @@ function porm_road_base_rc(pre_group_cnt) {
 |	三	|	8	|	31
 |	四	|	8	|	32
 
-### config.js
+### 設置config.js
 ```js 
 'use strict';
 const nconf = (module.exports = require('nconf'));
@@ -232,7 +235,7 @@ function checkConfig(setting) {
   }
 }
 ```
-# using sportgroup/sport_rcmrk/config.js
+### using sportgroup/sport_rcmrk/config.js
 
 ```
 var mysql = require("mysql");
@@ -249,21 +252,20 @@ exports.localmysql= mysql.createConnection({
 ```
 
 
-# 其它Console
+## 其它Console
 - C:/Apache/MySQL Server 8.0
 - C:/Apache/www
 - C:/Apache/sportdayPHPWebsite
 - cmd
-- C:/Apache>run
+- C:\Apache>run
 - C:\code\SportDay\Sport_gae_xls\gaexls\bin\Debug\gaexls.exe
 - C:\code\Gae_SportDay_GAEDATA\gae\bin\Debug\gae.exe
 - C:\code\SportDay\SportDay\bin\Debug\SportDay.exe
-- %MY_DOCUMENT%/.credentials
-- mbcdevit
-- mbc11thsp
+- REM %MY_DOCUMENT%/.credentials
+- REM user\mbcdevit
+- REM user\mbc11thsp
 
-
-# 參考
-# Getting Started with Node.js on Google Cloud Platform
+## 參考
+* Getting Started with Node.js on Google Cloud Platform
 * [Getting started with Node.js](https://cloud.google.com/nodejs/getting-started)
 
