@@ -1,6 +1,6 @@
 # School_Sport_Game_Arrangement
 # 校運會編排系統
-
+![主介面](https://raw.githubusercontent.com/eddylin2015/sportdayPHPWebsite/refs/heads/master/public/SPDFrontPage.png)
 # 運動項目表
 
 ## 報名
